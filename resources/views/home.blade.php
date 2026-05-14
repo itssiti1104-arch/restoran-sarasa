@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sarasa Restaurant</title>
@@ -236,6 +237,25 @@
             color:#5a0010;
         }
 
+        .feature-item{
+            display:flex;
+            align-items:center;
+            gap:15px;
+        }
+
+        .feature-icon{
+            width:60px;
+            height:60px;
+            background:#5a0010;
+            color:white;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:24px;
+            flex-shrink:0;
+        }
+
         /* SECTION */
 
         section{
@@ -252,6 +272,26 @@
             font-size:50px;
             color:#5a0010;
             font-family:'Playfair Display', serif;
+        }
+
+        .title-line{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:15px;
+            margin-top:15px;
+        }
+
+        .title-line span{
+            width:90px;
+            height:3px;
+            background:#5a0010;
+            display:block;
+        }
+
+        .title-line i{
+            color:#5a0010;
+            font-size:25px;
         }
 
         /* MENU */
@@ -339,6 +379,20 @@
         .why-item h3{
             margin:20px 0 10px;
             color:#5a0010;
+        }
+
+        .why-icon{
+            width:80px;
+            height:80px;
+            background:#5a0010;
+            color:white;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin:auto;
+            font-size:32px;
+            margin-bottom:20px;
         }
 
         /* STEPS */
@@ -441,6 +495,36 @@
                 flex-wrap:wrap;
                 justify-content:center;
             }
+
+            .social-icons{
+                display:flex;
+                gap:15px;
+                margin-top:15px;
+            }
+
+            .social-icons i{
+                width:45px;
+                height:45px;
+                border:2px solid #5a0010;
+                border-radius:50%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                color:#5a0010;
+                cursor:pointer;
+                transition:0.3s;
+            }
+
+            .social-icons i:hover{
+                background:#5a0010;
+                color:white;
+            }
+
+            .social-icons a{
+                text-decoration:none;
+            }
+
+
         }
     </style>
 </head>
@@ -498,16 +582,20 @@
 
                 <div class="hero-btn">
                     <a href="/login">
-                        <button class="btn-order">Pesan Sekarang</button>
+                        <button class="btn-order">
+                            <i class="fa-solid fa-utensils"></i> Pesan Sekarang
+                        </button>
                     </a>
                     <a href="#menu">
-                        <button class="btn-menu">Lihat Menu</button>
+                        <button class="btn-menu">
+                            <i class="fa-solid fa-book-open"></i> Lihat Menu
+                        </button>
                     </a>
                 </div>
             </div>
 
             <div class="hero-image">
-                <img src="https://images.unsplash.com/photo-1518492104633-130d0cc84637?q=80&w=1200&auto=format&fit=crop" alt="ayam">
+                <img src="/images/ayam_home.png" alt="ayam">
             </div>
 
         </div>
@@ -519,18 +607,42 @@
         <div class="feature-box">
 
             <div class="feature-item">
-                <h4>Menu Berkualitas</h4>
-                <p>Bahan segar dan pilihan terbaik setiap hari.</p>
+
+                <div class="feature-icon">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+
+                <div>
+                    <h4>Menu Berkualitas</h4>
+                    <p>Bahan segar dan pilihan terbaik setiap hari.</p>
+                </div>
+
             </div>
 
             <div class="feature-item">
-                <h4>Disajikan di Meja</h4>
-                <p>Pesanan Anda diantar langsung ke meja.</p>
+
+                <div class="feature-icon">
+                    <i class="fa-solid fa-bell-concierge"></i>
+                </div>
+
+                <div>
+                    <h4>Disajikan di Meja</h4>
+                    <p>Pesanan Anda diantar langsung ke meja.</p>
+                </div>
+
             </div>
 
             <div class="feature-item">
-                <h4>Pelayanan Ramah</h4>
-                <p>Tim kami siap melayani dengan sepenuh hati.</p>
+
+                <div class="feature-icon">
+                    <i class="fa-solid fa-handshake-angle"></i>
+                </div>
+
+                <div>
+                    <h4>Pelayanan Ramah</h4>
+                    <p>Tim kami siap melayani dengan sepenuh hati.</p>
+                </div>
+
             </div>
 
         </div>
@@ -543,12 +655,17 @@
 
             <div class="section-title">
                 <h2>Menu Favorit Kami</h2>
+                <div class="title-line">
+                    <span></span>
+                    <i class="fa-solid fa-star"></i>
+                    <span></span>
+                </div>
             </div>
 
             <div class="menu-grid">
 
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1604908176997-4318bcbfd1c0?q=80&w=1200&auto=format&fit=crop">
+                    <img src="/images/nasi_goreng.jpeg">
 
                     <div class="card-body">
                         <h3>Nasi Goreng</h3>
@@ -557,7 +674,7 @@
                 </div>
 
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=1200&auto=format&fit=crop">
+                    <img src="/images/ayam_bakar.jpeg">
 
                     <div class="card-body">
                         <h3>Ayam Bakar</h3>
@@ -566,7 +683,7 @@
                 </div>
 
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?q=80&w=1200&auto=format&fit=crop">
+                    <img src="/images/thai_tea.jpeg">
 
                     <div class="card-body">
                         <h3>Es Thai Tea</h3>
@@ -575,7 +692,7 @@
                 </div>
 
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=1200&auto=format&fit=crop">
+                    <img src="/images/coklat_lava.jpeg">
 
                     <div class="card-body">
                         <h3>Coklat Lava</h3>
@@ -604,24 +721,59 @@
 
                         <div class="section-title">
                             <h2>Kenapa Memilih Kami?</h2>
+                            <div class="title-line">
+                                <span></span>
+                                <i class="fa-solid fa-star"></i>
+                                <span></span>
+                            </div>
                         </div>
             </div>
 
             <div class="why-grid">
 
                 <div class="why-item">
+
+                    <div class="why-icon">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+
                     <h3>Menu Pilihan</h3>
-                    <p>Tersedia berbagai pilihan hidangan lezat untuk memanjakan lidah Anda.</p>
+
+                    <p>
+                        Tersedia berbagai pilihan hidangan lezat
+                        untuk memanjakan lidah Anda.
+                    </p>
+
                 </div>
 
                 <div class="why-item">
+
+                    <div class="why-icon">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                    </div>
+
                     <h3>Pesan dari Meja</h3>
-                    <p>Pesan makanan favorit langsung dari meja tanpa harus antre.</p>
+
+                    <p>
+                        Pesan makanan favorit langsung dari meja
+                        tanpa harus antre.
+                    </p>
+
                 </div>
 
                 <div class="why-item">
+
+                    <div class="why-icon">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+
                     <h3>Bayar di Kasir</h3>
-                    <p>Konfirmasi pesanan dan lakukan pembayaran dengan cepat.</p>
+
+                    <p>
+                        Konfirmasi pesanan dan lakukan pembayaran
+                        dengan cepat.
+                    </p>
+
                 </div>
 
             </div>
@@ -640,6 +792,11 @@
 
                         <div class="section-title">
                             <h2>Cara Pemesanan</h2>
+                            <div class="title-line">
+                                <span></span>
+                                <i class="fa-solid fa-star"></i>
+                                <span></span>
+                            </div>
                         </div>
             </div>
 
@@ -690,7 +847,7 @@
                 <div>
                     <div class="footer-logo">
 
-                        <img src="/images/logo.png" alt="logo">
+                        <img src="/images/logo_putih.png" alt="logo">
 
                         <div>
                             <h2>sarasa</h2>
@@ -705,22 +862,34 @@
 
                 <div>
                     <h3>Kontak Kami</h3>
-                    <p>0812 3456 7890</p>
-                    <p>sarasarestoran@gmail.com</p>
-                    <p>Jl. Kuliner No.123</p>
+                    <p><i class="fa-solid fa-phone"></i> 0812 3456 7890</p>
+                    <p><i class="fa-solid fa-envelope"></i> sarasarestoran@gmail.com</p>
+                    <p><i class="fa-solid fa-location-dot"></i> Jl. Kuliner No.123</p>
                 </div>
 
                 <div>
                     <h3>Jam Operasional</h3>
-                    <p>Senin - Minggu</p>
+                    <p><i class="fa-regular fa-clock"></i> Senin - Minggu</p>
                     <p>09.00 - 22.00 WIB</p>
                 </div>
 
                 <div>
                     <h3>Ikuti Kami</h3>
-                    <p>Instagram</p>
-                    <p>Facebook</p>
-                    <p>TikTok</p>
+                    <div class="social-icons">
+
+                        <a href="https://instagram.com" target="_blank">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+
+                        <a href="https://facebook.com" target="_blank">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+
+                        <a href="https://tiktok.com" target="_blank">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+
+                    </div>
                 </div>
 
             </div>
