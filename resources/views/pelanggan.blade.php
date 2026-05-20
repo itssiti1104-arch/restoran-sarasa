@@ -361,19 +361,25 @@
 
             <div class="category-card">
                 <h3>Makanan</h3>
-                <button>Lihat menu</button>
+                <a href="/menu-pelanggan">
+                    <button>Lihat menu</button>
+                </a>
                 <img src="/images/makanan.jpeg">
             </div>
 
             <div class="category-card">
                 <h3>Minuman</h3>
-                <button>Lihat menu</button>
+                <a href="/menu-minuman">
+                    <button>Lihat menu</button>
+                </a>
                 <img src="/images/minuman.jpeg">
             </div>
 
             <div class="category-card">
                 <h3>Dessert</h3>
-                <button>Lihat menu</button>
+                <a href="/menu-dessert">
+                    <button>Lihat menu</button>
+                </a>
                 <img src="/images/dessert.jpeg">
             </div>
 
