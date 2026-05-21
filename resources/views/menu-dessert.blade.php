@@ -266,22 +266,22 @@
                 Menu
             </a>
 
-            <a href="#">
+            <a href="/riwayat-pesanan">
                 <i class="fa-solid fa-clipboard-list"></i>
                 Riwayat Pesanan
             </a>
 
-            <a href="#">
+            <a href="/status-pesanan">
                 <i class="fa-solid fa-bell-concierge"></i>
                 Status Pesanan
             </a>
 
-            <a href="#">
+            <a href="/profil-pelanggan">
                 <i class="fa-regular fa-user"></i>
                 Profil Saya
             </a>
 
-            <a href="#">
+            <a href="/">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Logout
             </a>
@@ -331,15 +331,20 @@
 
             <!-- CARD -->
 
+            @foreach($menus as $menu)
+
             <div class="card">
 
-                <img src="/images/coklat_lava.jpeg">
+                <img src="/images/{{ $menu->gambar }}">
 
                 <div class="card-body">
 
                     <div>
-                        <h3>Coklat Lava</h3>
-                        <p class="price">Rp 18.000</p>
+                        <h3>{{ $menu->nama_menu }}</h3>
+
+                        <p class="price">
+                            Rp {{ number_format($menu->harga,0,',','.') }}
+                        </p>
                     </div>
 
                     <div class="qty-box">
@@ -348,7 +353,15 @@
 
                         <div class="qty-number">0</div>
 
-                        <button class="qty-btn plus">+</button>
+                        <form action="/cart/add/{{ $menu->id }}" method="POST">
+
+                            @csrf
+
+                            <button type="submit" class="qty-btn plus">
+                                +
+                            </button>
+
+                        </form>
 
                     </div>
 
@@ -356,140 +369,7 @@
 
             </div>
 
-            <!-- CARD -->
-
-            <div class="card">
-
-                <img src="/images/terang_bulan.jpeg">
-
-                <div class="card-body">
-
-                    <div>
-                        <h3>Terang Bulan</h3>
-                        <p class="price">Rp 15.000</p>
-                    </div>
-
-                    <div class="qty-box">
-
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <button class="qty-btn plus">+</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD -->
-
-            <div class="card">
-
-                <img src="/images/puding_coklat.jpeg">
-
-                <div class="card-body">
-
-                    <div>
-                        <h3>Puding Coklat</h3>
-                        <p class="price">Rp 20.000</p>
-                    </div>
-
-                    <div class="qty-box">
-
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <button class="qty-btn plus">+</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD -->
-
-            <div class="card">
-
-                <img src="/images/kolak_pisang.jpeg">
-
-                <div class="card-body">
-
-                    <div>
-                        <h3>Kolak Pisang</h3>
-                        <p class="price">Rp 10.000</p>
-                    </div>
-
-                   <div class="qty-box">
-
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <button class="qty-btn plus">+</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD -->
-
-            <div class="card">
-
-                <img src="/images/bubur_candil.jpeg">
-
-                <div class="card-body">
-
-                    <div>
-                        <h3>Bubur Candil</h3>
-                        <p class="price">Rp 15.000</p>
-                    </div>
-
-                    <div class="qty-box">
-
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <button class="qty-btn plus">+</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD -->
-
-            <div class="card">
-
-                <img src="/images/dadar_gulung.jpeg">
-
-                <div class="card-body">
-
-                    <div>
-                        <h3>Dadar Gulung</h3>
-                        <p class="price">Rp 15.000</p>
-                    </div>
-
-                    <div class="qty-box">
-
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <button class="qty-btn plus">+</button>
-
-                    </div>
-
-                </div>
-
-            </div>
+            @endforeach
 
         </div>
 

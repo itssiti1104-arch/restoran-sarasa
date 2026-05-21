@@ -11,20 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('menus', function (Blueprint $table) {
+        Schema::create('order_items', function (Blueprint $table) {
             $table->id();
 
-            $table->string('nama_menu');
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
+
+            $table->foreignId('menu_id')->constrained()->onDelete('cascade');
+
+            $table->integer('jumlah');
 
             $table->integer('harga');
 
-            $table->string('kategori');
-            // makanan / minuman / dessert
-
-            $table->string('gambar')->nullable();
-
-            $table->boolean('status')->default(true);
-            // tersedia atau tidak
+            $table->integer('subtotal');
 
             $table->timestamps();
         });
@@ -35,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('order_items');
     }
 };

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Menu;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,15 +20,27 @@ Route::get('/', function () {
 });
 
 Route::get('/menu-pelanggan', function () {
-    return view('menu-makanan');
+
+    $menus = Menu::where('kategori', 'makanan')->get();
+
+    return view('menu-makanan', compact('menus'));
+
 });
 
 Route::get('/menu-minuman', function () {
-    return view('menu-minuman');
+
+    $menus = Menu::where('kategori', 'minuman')->get();
+
+    return view('menu-minuman', compact('menus'));
+
 });
 
 Route::get('/menu-dessert', function () {
-    return view('menu-dessert');
+
+    $menus = Menu::where('kategori', 'dessert')->get();
+
+    return view('menu-dessert', compact('menus'));
+
 });
 
 Route::get('/keranjang', function () {
@@ -41,6 +55,29 @@ Route::get('/kode-pesanan', function () {
     return view('kode-pesanan');
 });
 
+Route::get('/riwayat-pesanan', function () {
+    return view('riwayat-pesanan');
+});
+
+Route::get('/status-pesanan', function () {
+    return view('status-pesanan');
+});
+
+Route::get('/profil-pelanggan', function () {
+    return view('profil-pelanggan');
+});
+
+Route::get('/kasir', function () {
+    return view('kasir');
+});
+
+Route::get('/detail-pesanan-kasir', function () {
+    return view('detail-pesanan-kasir');
+});
+
 Route::view('/login', 'login');
 Route::view('/register', 'register');
 Route::view('/pelanggan', 'pelanggan');
+
+Route::post('/cart/add/{id}', [CartController::class, 'add']);
+Route::get('/keranjang', [CartController::class, 'index']);

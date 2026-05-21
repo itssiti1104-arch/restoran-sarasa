@@ -266,22 +266,22 @@
                 Menu
             </a>
 
-            <a href="#">
+            <a href="/riwayat-pesanan">
                 <i class="fa-solid fa-clipboard-list"></i>
                 Riwayat Pesanan
             </a>
 
-            <a href="#">
+            <a href="/status-pesanan">
                 <i class="fa-solid fa-bell-concierge"></i>
                 Status Pesanan
             </a>
 
-            <a href="#">
+            <a href="/profil-pelanggan">
                 <i class="fa-regular fa-user"></i>
                 Profil Saya
             </a>
 
-            <a href="#">
+            <a href="/">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Logout
             </a>
@@ -329,167 +329,45 @@
 
         <div class="menu-grid">
 
-            <!-- CARD -->
+            @foreach($menus as $menu)
 
-            <div class="card">
+<div class="card">
 
-                <img src="/images/nasi_goreng.jpeg">
+    <img src="/images/{{ $menu->gambar }}">
 
-                <div class="card-body">
+    <div class="card-body">
 
-                    <div>
-                        <h3>Nasi Goreng</h3>
-                        <p class="price">Rp 20.000</p>
-                    </div>
+        <div>
+            <h3>{{ $menu->nama_menu }}</h3>
 
-                    <div class="qty-box">
+            <p class="price">
+                Rp {{ number_format($menu->harga,0,',','.') }}
+            </p>
+        </div>
 
-                        <button class="qty-btn minus">-</button>
+        <div class="qty-box">
 
-                        <div class="qty-number">0</div>
+            <button class="qty-btn minus">-</button>
 
-                        <button class="qty-btn plus">+</button>
+            <div class="qty-number">0</div>
 
-                    </div>
+            <form action="/cart/add/{{ $menu->id }}" method="POST">
 
-                </div>
+                @csrf
 
-            </div>
+                <button type="submit" class="qty-btn plus">
+                    +
+                </button>
 
-            <!-- CARD -->
+            </form>
 
-            <div class="card">
+        </div>
 
-                <img src="/images/ayam_geprek.jpeg">
+    </div>
 
-                <div class="card-body">
+</div>
 
-                    <div>
-                        <h3>Ayam Geprek</h3>
-                        <p class="price">Rp 15.000</p>
-                    </div>
-
-                    <div class="qty-box">
-
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <button class="qty-btn plus">+</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD -->
-
-            <div class="card">
-
-                <img src="/images/ayam_bakar.jpeg">
-
-                <div class="card-body">
-
-                    <div>
-                        <h3>Ayam Bakar</h3>
-                        <p class="price">Rp 20.000</p>
-                    </div>
-
-                    <div class="qty-box">
-
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <button class="qty-btn plus">+</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD -->
-
-            <div class="card">
-
-                <img src="/images/spaghetti.jpeg">
-
-                <div class="card-body">
-
-                    <div>
-                        <h3>Spaghetti</h3>
-                        <p class="price">Rp 20.000</p>
-                    </div>
-
-                   <div class="qty-box">
-
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <button class="qty-btn plus">+</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD -->
-
-            <div class="card">
-
-                <img src="/images/mie_jawa.jpeg">
-
-                <div class="card-body">
-
-                    <div>
-                        <h3>Mie Goreng Jawa</h3>
-                        <p class="price">Rp 15.000</p>
-                    </div>
-
-                    <div class="qty-box">
-
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <button class="qty-btn plus">+</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD -->
-
-            <div class="card">
-
-                <img src="/images/nasi_uduk.jpeg">
-
-                <div class="card-body">
-
-                    <div>
-                        <h3>Nasi Uduk</h3>
-                        <p class="price">Rp 15.000</p>
-                    </div>
-
-                    <div class="qty-box">
-
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <button class="qty-btn plus">+</button>
-
-                    </div>
-
-                </div>
-
-            </div>
+@endforeach
 
         </div>
 

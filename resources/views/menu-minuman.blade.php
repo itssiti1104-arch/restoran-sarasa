@@ -266,22 +266,22 @@
                 Menu
             </a>
 
-            <a href="#">
+            <a href="/riwayat-pesanan">
                 <i class="fa-solid fa-clipboard-list"></i>
                 Riwayat Pesanan
             </a>
 
-            <a href="#">
+            <a href="/status-pesanan">
                 <i class="fa-solid fa-bell-concierge"></i>
                 Status Pesanan
             </a>
 
-            <a href="#">
+            <a href="/profil-pelanggan">
                 <i class="fa-regular fa-user"></i>
                 Profil Saya
             </a>
 
-            <a href="#">
+            <a href="/">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Logout
             </a>
@@ -331,15 +331,20 @@
 
             <!-- CARD -->
 
+            @foreach($menus as $menu)
+
             <div class="card">
 
-                <img src="/images/teh.jpeg">
+                <img src="/images/{{ $menu->gambar }}">
 
                 <div class="card-body">
 
                     <div>
-                        <h3>Es Teh</h3>
-                        <p class="price">Rp 3.000</p>
+                        <h3>{{ $menu->nama_menu }}</h3>
+
+                        <p class="price">
+                            Rp {{ number_format($menu->harga,0,',','.') }}
+                        </p>
                     </div>
 
                     <div class="qty-box">
@@ -348,148 +353,22 @@
 
                         <div class="qty-number">0</div>
 
-                        <button class="qty-btn plus">+</button>
+                        <form action="/cart/add/{{ $menu->id }}" method="POST">
 
+                            @csrf
+
+                            <button type="submit" class="qty-btn plus">
+                                +
+                            </button>
+
+                        </form>
                     </div>
 
                 </div>
 
             </div>
 
-            <!-- CARD -->
-
-            <div class="card">
-
-                <img src="/images/thai_tea.jpeg">
-
-                <div class="card-body">
-
-                    <div>
-                        <h3>Thai Tea</h3>
-                        <p class="price">Rp 12.000</p>
-                    </div>
-
-                    <div class="qty-box">
-
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <button class="qty-btn plus">+</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD -->
-
-            <div class="card">
-
-                <img src="/images/jeruk.jpeg">
-
-                <div class="card-body">
-
-                    <div>
-                        <h3>Es Jeruk</h3>
-                        <p class="price">Rp 5.000</p>
-                    </div>
-
-                    <div class="qty-box">
-
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <button class="qty-btn plus">+</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD -->
-
-            <div class="card">
-
-                <img src="/images/teler.jpeg">
-
-                <div class="card-body">
-
-                    <div>
-                        <h3>Es Teler</h3>
-                        <p class="price">Rp 10.000</p>
-                    </div>
-
-                   <div class="qty-box">
-
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <button class="qty-btn plus">+</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD -->
-
-            <div class="card">
-
-                <img src="/images/cendol.jpeg">
-
-                <div class="card-body">
-
-                    <div>
-                        <h3>Es Cendol</h3>
-                        <p class="price">Rp 10.000</p>
-                    </div>
-
-                    <div class="qty-box">
-
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <button class="qty-btn plus">+</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD -->
-
-            <div class="card">
-
-                <img src="/images/air.jpeg">
-
-                <div class="card-body">
-
-                    <div>
-                        <h3>Air Mineral</h3>
-                        <p class="price">Rp 3.000</p>
-                    </div>
-
-                    <div class="qty-box">
-
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <button class="qty-btn plus">+</button>
-
-                    </div>
-
-                </div>
-
-            </div>
+            @endforeach
 
         </div>
 

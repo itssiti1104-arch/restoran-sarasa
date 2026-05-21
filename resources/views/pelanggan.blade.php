@@ -295,22 +295,22 @@
                 Menu
             </a>
 
-            <a href="#">
+            <a href="/riwayat-pesanan">
                 <i class="fa-solid fa-clipboard-list"></i>
                 Riwayat Pesanan
             </a>
 
-            <a href="#">
+            <a href="/status-pesanan">
                 <i class="fa-solid fa-bell-concierge"></i>
                 Status Pesanan
             </a>
 
-            <a href="#">
+            <a href="/profil-pelanggan">
                 <i class="fa-regular fa-user"></i>
                 Profil Saya
             </a>
 
-            <a href="#">
+            <a href="/">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Logout
             </a>

@@ -6,12 +6,10 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('menus', function (Blueprint $table) {
+
             $table->id();
 
             $table->string('nama_menu');
@@ -19,22 +17,16 @@ return new class extends Migration
             $table->integer('harga');
 
             $table->string('kategori');
-            // makanan / minuman / dessert
 
-            $table->string('gambar')->nullable();
-
-            $table->boolean('status')->default(true);
-            // tersedia atau tidak
+            $table->string('gambar');
 
             $table->timestamps();
+
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('menus');
     }
 };
