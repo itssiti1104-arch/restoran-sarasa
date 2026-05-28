@@ -144,7 +144,8 @@
 </head>
 <body>
 
-    <div class="register-box">
+    <form action="/register-pelanggan" method="POST" class="register-box">
+        @csrf
 
         <div class="top-register">
 
@@ -174,37 +175,49 @@
 
         <div class="input-group">
             <label>Nama lengkap</label>
-            <input type="text" placeholder="Masukkan nama lengkap Anda">
+            <input type="text"
+            name="nama"
+            placeholder="Masukkan nama lengkap Anda">
         </div>
 
         <div class="input-group">
             <label>Email</label>
-            <input type="email" placeholder="Masukkan email Anda">
+            <input type="email"
+            name="email"
+            placeholder="Masukkan email Anda">
         </div>
 
         <div class="input-group">
             <label>Nomor telepon</label>
-            <input type="text" placeholder="Masukkan nomor telepon Anda">
+            <input type="text"
+            name="nomor_telepon"
+            placeholder="Masukkan nomor telepon Anda">
         </div>
 
         <div class="input-group">
             <label>Username</label>
-            <input type="text" placeholder="Masukkan username Anda">
+            <input type="text"
+            name="username"
+            placeholder="Masukkan username Anda">
         </div>
 
         <div class="input-group">
             <label>Password</label>
-            <input type="password" placeholder="Masukkan password Anda">
+            <input type="password"
+            name="password"
+            placeholder="Masukkan password Anda">
         </div>
 
         <div class="input-group">
             <label>Konfirmasi Password</label>
-            <input type="password" placeholder="Ulangi password Anda">
+            <input type="password"
+            name="password_confirmation"
+            placeholder="Ulangi password Anda">
         </div>
 
         <div class="agree">
 
-            <input type="checkbox">
+            <input type="checkbox" required>
 
             <p>
                 Saya setuju dengan
@@ -215,11 +228,11 @@
 
         </div>
 
-        <button class="btn-register">
+        <button type="submit" class="btn-register">
             Daftar sekarang
         </button>
 
-    </div>
+    </form>
 
 </body>
 </html>

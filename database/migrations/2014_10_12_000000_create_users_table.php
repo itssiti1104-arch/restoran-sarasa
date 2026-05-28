@@ -11,20 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('menus', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('nama');
 
-            $table->string('nama_menu');
+            $table->string('email')->unique();
 
-            $table->integer('harga');
+            $table->string('nomor_telepon')->nullable();
 
-            $table->string('kategori');
-            // makanan / minuman / dessert
+            $table->string('username')->unique();
 
-            $table->string('gambar')->nullable();
+            $table->string('password');
 
-            $table->boolean('status')->default(true);
-            // tersedia atau tidak
+            $table->string('role');
+
+            $table->string('status')->default('aktif');
 
             $table->timestamps();
         });

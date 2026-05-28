@@ -2,6 +2,16 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+
+    <meta http-equiv="Cache-Control"
+    content="no-cache, no-store, must-revalidate">
+
+    <meta http-equiv="Pragma"
+    content="no-cache">
+
+    <meta http-equiv="Expires"
+    content="0">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu Pelanggan</title>
 
@@ -281,7 +291,7 @@
                 Profil Saya
             </a>
 
-            <a href="/">
+            <a href="/logout">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Logout
             </a>
@@ -318,7 +328,15 @@
 
             <a href="/keranjang" class="cart">
                 <i class="fa-solid fa-cart-shopping"></i>
-                <div class="badge">2</div>
+
+                <div class="badge">
+
+                    {{
+                        collect(session('keranjang', []))
+                        ->sum('jumlah')
+                    }}
+
+                </div>
             </a>
 
         </div>
@@ -349,19 +367,20 @@
 
                     <div class="qty-box">
 
-                        <button class="qty-btn minus">-</button>
-
-                        <div class="qty-number">0</div>
-
-                        <form action="/cart/add/{{ $menu->id }}" method="POST">
-
+                        <form action="/kurang-keranjang/{{ $menu->id }}" method="POST">
                             @csrf
-
-                            <button type="submit" class="qty-btn plus">
-                                +
-                            </button>
-
+                            <button class="qty-btn">-</button>
                         </form>
+
+                        <div class="qty-number">
+                            {{ session('keranjang')[$menu->id]['jumlah'] ?? 0 }}
+                        </div>
+
+                        <form action="/tambah-keranjang/{{ $menu->id }}" method="POST">
+                            @csrf
+                            <button class="qty-btn">+</button>
+                        </form>
+
                     </div>
 
                 </div>
@@ -375,51 +394,6 @@
     </div>
 
     </div>
-
-<script>
-
-    const plusButtons = document.querySelectorAll('.plus');
-    const minusButtons = document.querySelectorAll('.minus');
-
-    plusButtons.forEach(button => {
-
-        button.addEventListener('click', function(){
-
-            let number =
-            this.parentElement.querySelector('.qty-number');
-
-            let count = parseInt(number.innerText);
-
-            count++;
-
-            number.innerText = count;
-
-        });
-
-    });
-
-    minusButtons.forEach(button => {
-
-        button.addEventListener('click', function(){
-
-            let number =
-            this.parentElement.querySelector('.qty-number');
-
-            let count = parseInt(number.innerText);
-
-            if(count > 0){
-
-                count--;
-
-                number.innerText = count;
-
-            }
-
-        });
-
-    });
-
-</script>
 
 </body>
 </html>

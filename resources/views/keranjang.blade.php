@@ -2,6 +2,16 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+
+    <meta http-equiv="Cache-Control"
+    content="no-cache, no-store, must-revalidate">
+
+    <meta http-equiv="Pragma"
+    content="no-cache">
+
+    <meta http-equiv="Expires"
+    content="0">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keranjang</title>
 
@@ -130,34 +140,75 @@
             <th>Aksi</th>
         </tr>
 
+        @php
+            $total = 0;
+        @endphp
+
+        @foreach(session('keranjang', []) as $id => $item)
+
+        @php
+            $subtotal = $item['harga'] * $item['jumlah'];
+            $total += $subtotal;
+        @endphp
+
         <tr>
 
             <td>
                 <div class="menu-info">
-                    <img src="/images/nasi_goreng.jpeg">
-                    <h3>Nasi Goreng</h3>
+
+                    <img src="/images/{{ $item['gambar'] }}">
+
+                    <h3>{{ $item['nama'] }}</h3>
+
                 </div>
             </td>
 
-            <td>Rp 20.000</td>
+            <td>
+                Rp {{ number_format($item['harga'],0,',','.') }}
+            </td>
 
             <td>
 
                 <div class="qty-box">
-                    <button class="qty-btn">-</button>
-                    <div class="qty-number">1</div>
-                    <button class="qty-btn">+</button>
+
+                    <form action="/kurang-keranjang/{{ $id }}" method="POST">
+                        @csrf
+                        <button class="qty-btn">-</button>
+                    </form>
+
+                    <div class="qty-number">
+                        {{ $item['jumlah'] }}
+                    </div>
+
+                    <form action="/tambah-keranjang/{{ $id }}" method="POST">
+                        @csrf
+                        <button class="qty-btn">+</button>
+                    </form>
+
                 </div>
 
             </td>
 
-            <td>Rp 20.000</td>
+            <td>
+                Rp {{ number_format($subtotal,0,',','.') }}
+            </td>
 
             <td>
-                <i class="fa-regular fa-trash-can delete-btn"></i>
+
+                <form action="/hapus-keranjang/{{ $id }}" method="POST">
+                    @csrf
+
+                    <button style="border:none; background:none;">
+                        <i class="fa-regular fa-trash-can delete"></i>
+                    </button>
+
+                </form>
+
             </td>
 
         </tr>
+
+        @endforeach
 
     </table>
 
@@ -173,68 +224,6 @@
         </a>
 
     </div>
-
-<script>
-
-    const plusButtons = document.querySelectorAll('.plus');
-    const minusButtons = document.querySelectorAll('.minus');
-
-    plusButtons.forEach(button => {
-
-        button.addEventListener('click', function(){
-
-            let number =
-            this.parentElement.querySelector('.qty-number');
-
-            let count = parseInt(number.innerText);
-
-            count++;
-
-            number.innerText = count;
-
-        });
-
-    });
-
-    minusButtons.forEach(button => {
-
-        button.addEventListener('click', function(){
-
-            let number =
-            this.parentElement.querySelector('.qty-number');
-
-            let count = parseInt(number.innerText);
-
-            if(count > 0){
-
-                count--;
-
-                number.innerText = count;
-
-            }
-
-        });
-
-    });
-
-</script>
-
-<script>
-
-    const deleteButtons =
-    document.querySelectorAll('.delete-btn');
-
-    deleteButtons.forEach(button => {
-
-        button.addEventListener('click', function(){
-
-            this.closest('tr').remove();
-
-        });
-
-    });
-
-</script>
 
 </body>
 </html>

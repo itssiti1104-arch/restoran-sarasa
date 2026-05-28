@@ -70,6 +70,18 @@ body{
     font-size:25px;
 }
 
+.back-btn{
+    display:inline-block;
+    margin-top:10px;
+    padding:18px 40px;
+    background:#5a0010;
+    color:white;
+    text-decoration:none;
+    border-radius:15px;
+    font-size:24px;
+    font-weight:600;
+}
+
 </style>
 </head>
 <body>
@@ -79,7 +91,7 @@ body{
     <h2>Tunjukkan kode pesanan ini ke kasir</h2>
 
     <div class="code">
-        #ORD-20260520-0012
+        #{{ $kode }}
     </div>
 
     <div class="total">
@@ -87,7 +99,7 @@ body{
         <h3>Total Pembayaran</h3>
 
         <div class="price">
-            Rp 23.000
+            Rp {{ number_format($total,0,',','.') }}
         </div>
 
     </div>
@@ -102,6 +114,14 @@ body{
 <div class="success">
     <b>Terimakasih!</b><br>
     Kami akan segera memproses pesanan Anda setelah pembayaran dikonfirmasi.
+</div>
+
+<div style="margin-top:40px; text-align:center;">
+
+    <a href="/pelanggan" class="back-btn">
+        Kembali ke Beranda
+    </a>
+
 </div>
 
 </body>

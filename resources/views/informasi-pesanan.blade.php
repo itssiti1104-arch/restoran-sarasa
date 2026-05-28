@@ -2,6 +2,16 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+
+<meta http-equiv="Cache-Control"
+content="no-cache, no-store, must-revalidate">
+
+<meta http-equiv="Pragma"
+content="no-cache">
+
+<meta http-equiv="Expires"
+content="0">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Informasi Pesanan</title>
@@ -112,18 +122,21 @@ textarea{
 
 <h1>Informasi Pesanan</h1>
 
+<form action="/kode-pesanan" method="POST">
+    @csrf
+
 <div class="container">
 
     <div>
 
-        <label>Nama</label>
-        <input type="text" placeholder="Isi Nama Anda">
+    <label>Nama</label>
+    <input type="text" name="nama" placeholder="Isi Nama Anda">
 
-        <label>Meja</label>
-        <input type="text" placeholder="Isi Nomor Meja">
+    <label>Meja</label>
+    <input type="text" name="meja" placeholder="Isi Nomor Meja">
 
-        <label>Catatan</label>
-        <textarea placeholder="Tambahkan catatan..."></textarea>
+    <label>Catatan</label>
+    <textarea name="catatan" placeholder="Tambahkan catatan..."></textarea>
 
     </div>
 
@@ -131,19 +144,39 @@ textarea{
 
         <h2>Ringkasan Pesanan</h2>
 
-        <div class="item">
-            <span>Nasi Goreng x1</span>
-            <span>Rp 20.000</span>
-        </div>
+        @php
+            $total = 0;
+        @endphp
+
+        @foreach(session('keranjang', []) as $item)
+
+        @php
+            $subtotal = $item['harga'] * $item['jumlah'];
+            $total += $subtotal;
+        @endphp
 
         <div class="item">
-            <span>Es Teh x1</span>
-            <span>Rp 3.000</span>
+
+            <span>
+                {{ $item['nama'] }} x{{ $item['jumlah'] }}
+            </span>
+
+            <span>
+                Rp {{ number_format($subtotal,0,',','.') }}
+            </span>
+
         </div>
+
+        @endforeach
 
         <div class="total">
+
             <span>Total</span>
-            <span>Rp 23.000</span>
+
+            <span>
+                Rp {{ number_format($total,0,',','.') }}
+            </span>
+
         </div>
 
     </div>
@@ -154,11 +187,13 @@ textarea{
 
     <a href="/keranjang" class="btn back">Kembali</a>
 
-    <a href="/kode-pesanan" class="btn pay">
+    <button type="submit" class="btn pay">
         Pesan dan Bayar di Kasir
-    </a>
+    </button>
 
 </div>
+
+</form>
 
 </body>
 </html>

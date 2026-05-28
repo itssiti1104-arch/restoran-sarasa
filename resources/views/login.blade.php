@@ -2,11 +2,26 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+
+    <meta http-equiv="Cache-Control"
+    content="no-cache, no-store, must-revalidate">
+
+    <meta http-equiv="Pragma"
+    content="no-cache">
+
+    <meta http-equiv="Expires"
+    content="0">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Sarasa</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
     <style>
 
@@ -63,6 +78,24 @@
             font-size:15px;
         }
 
+        .password-box{
+            position:relative;
+        }
+
+        .password-box input{
+            padding-right:55px;
+        }
+
+        .password-box i{
+            position:absolute;
+            right:20px;
+            top:50%;
+            transform:translateY(-50%);
+            cursor:pointer;
+            color:#777;
+            font-size:18px;
+        }
+
         .remember{
             display:flex;
             justify-content:space-between;
@@ -116,47 +149,113 @@
 
     </style>
 </head>
+
 <body>
 
-    <div class="login-box">
+    <form action="/login" method="POST" class="login-box">
+
+        @csrf
 
         <h1>Login</h1>
+
+        @if(session('error'))
+
+        <p style="color:red; margin-bottom:15px;">
+            {{ session('error') }}
+        </p>
+
+        @endif
 
         <p class="desc">
             Masuk untuk melanjutkan ke akun anda
         </p>
 
         <div class="input-group">
+
             <label>Username</label>
-            <input type="text" placeholder="Masukkan username Anda">
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Masukkan username"
+            >
+
         </div>
 
         <div class="input-group">
+
             <label>Password</label>
-            <input type="password" placeholder="Masukkan password Anda">
+
+            <div class="password-box">
+
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Masukkan password"
+                >
+
+                <i
+                    class="fa-solid fa-eye"
+                    id="togglePassword"
+                ></i>
+
+            </div>
+
         </div>
 
         <div class="remember">
 
             <div class="remember-left">
+
                 <input type="checkbox">
+
                 <span>Ingat saya</span>
+
             </div>
 
             <a href="#">Lupa password?</a>
 
         </div>
 
-        <button class="btn-login">
-            Masuk
+        <button type="submit" class="btn-login">
+            Login
         </button>
 
         <div class="register-text">
+
             Belum punya akun?
+
             <a href="/register">Daftar sekarang</a>
+
         </div>
 
-    </div>
+    </form>
+
+    <script>
+
+        const togglePassword =
+        document.getElementById('togglePassword');
+
+        const password =
+        document.getElementById('password');
+
+        togglePassword.addEventListener('click', () => {
+
+            const type =
+            password.getAttribute('type') === 'password'
+            ? 'text'
+            : 'password';
+
+            password.setAttribute('type', type);
+
+            togglePassword.classList.toggle('fa-eye');
+
+            togglePassword.classList.toggle('fa-eye-slash');
+
+        });
+
+    </script>
 
 </body>
 </html>

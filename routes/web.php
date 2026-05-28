@@ -1,83 +1,235 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Models\Menu;
+
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\KasirController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PelangganController;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| HALAMAN AWAL
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
 Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/menu-pelanggan', function () {
+/*
+|--------------------------------------------------------------------------
+| LOGIN & REGISTER
+|--------------------------------------------------------------------------
+*/
 
-    $menus = Menu::where('kategori', 'makanan')->get();
+Route::middleware('guest')->group(function () {
 
-    return view('menu-makanan', compact('menus'));
+    Route::get('/login', function () {
+        return view('login');
+    })->name('login');
+
+    Route::post('/login', [UserController::class, 'login']);
+
+    Route::get('/register', function () {
+        return view('register');
+    });
+
+    Route::post(
+        '/register-pelanggan',
+        [UserController::class, 'registerPelanggan']
+    );
+});
+
+/*
+|--------------------------------------------------------------------------
+| LOGOUT
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/logout',
+    [UserController::class, 'logout']
+)->middleware('auth');
+
+/*
+|--------------------------------------------------------------------------
+| PELANGGAN
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'role:pelanggan'])->group(function () {
+
+    Route::get(
+        '/pelanggan',
+        [PelangganController::class, 'pelanggan']
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | MENU
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/menu-pelanggan',
+        [CartController::class, 'menuMakanan']
+    );
+
+    Route::get(
+        '/menu-minuman',
+        [CartController::class, 'menuMinuman']
+    );
+
+    Route::get(
+        '/menu-dessert',
+        [CartController::class, 'menuDessert']
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | KERANJANG
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/keranjang',
+        [CartController::class, 'index']
+    );
+
+    Route::post(
+        '/tambah-keranjang/{id}',
+        [CartController::class, 'tambahKeranjang']
+    );
+
+    Route::post(
+        '/kurang-keranjang/{id}',
+        [CartController::class, 'kurangKeranjang']
+    );
+
+    Route::post(
+        '/hapus-keranjang/{id}',
+        [CartController::class, 'hapusKeranjang']
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | PEMESANAN
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/informasi-pesanan',
+        [CartController::class, 'informasiPesanan']
+    );
+
+    Route::post(
+        '/kode-pesanan',
+        [CartController::class, 'kodePesanan']
+    );
+
+    Route::get(
+        '/riwayat-pesanan',
+        [CartController::class, 'riwayatPesanan']
+    );
+
+    Route::get(
+        '/status-pesanan',
+        [CartController::class, 'statusPesanan']
+    );
+
+    Route::get(
+        '/profil-pelanggan',
+        [CartController::class, 'profilPelanggan']
+    );
 
 });
 
-Route::get('/menu-minuman', function () {
+/*
+|--------------------------------------------------------------------------
+| KASIR
+|--------------------------------------------------------------------------
+*/
 
-    $menus = Menu::where('kategori', 'minuman')->get();
+Route::middleware(['auth', 'role:kasir'])->group(function () {
 
-    return view('menu-minuman', compact('menus'));
+    Route::get(
+        '/kasir',
+        [KasirController::class, 'index']
+    );
 
+    Route::get(
+        '/pesanan-baru',
+        [KasirController::class, 'pesananBaru']
+    );
+
+    Route::get(
+        '/detail-pesanan-kasir/{id}',
+        [KasirController::class, 'detailPesanan']
+    );
+
+    Route::get(
+        '/konfirmasi-pembayaran/{id}',
+        [KasirController::class, 'konfirmasiPembayaran']
+    );
+
+    Route::post(
+        '/proses-pembayaran/{id}',
+        [KasirController::class, 'prosesPembayaran']
+    );
+
+    Route::post(
+        '/batalkan-pesanan/{id}',
+        [KasirController::class, 'batalkanPesanan']
+    );
 });
 
-Route::get('/menu-dessert', function () {
+/*
+|--------------------------------------------------------------------------
+| DAPUR
+|--------------------------------------------------------------------------
+*/
 
-    $menus = Menu::where('kategori', 'dessert')->get();
+Route::middleware(['auth', 'role:dapur'])->group(function () {
 
-    return view('menu-dessert', compact('menus'));
+    Route::get('/dapur', function () {
 
+        return view('dapur');
+
+    });
 });
 
-Route::get('/keranjang', function () {
-    return view('keranjang');
+/*
+|--------------------------------------------------------------------------
+| ADMIN
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+
+    Route::get(
+        '/admin',
+        [AdminController::class, 'index']
+    );
+
+    Route::get(
+        '/manajemen-akun',
+        [AdminController::class, 'manajemenAkun']
+    );
+
+    Route::post(
+        '/tambah-akun',
+        [UserController::class, 'store']
+    );
+
+    Route::put(
+        '/update-akun/{id}',
+        [UserController::class, 'update']
+    );
+
+    Route::delete(
+        '/hapus-akun/{id}',
+        [UserController::class, 'destroy']
+    );
 });
-
-Route::get('/informasi-pesanan', function () {
-    return view('informasi-pesanan');
-});
-
-Route::get('/kode-pesanan', function () {
-    return view('kode-pesanan');
-});
-
-Route::get('/riwayat-pesanan', function () {
-    return view('riwayat-pesanan');
-});
-
-Route::get('/status-pesanan', function () {
-    return view('status-pesanan');
-});
-
-Route::get('/profil-pelanggan', function () {
-    return view('profil-pelanggan');
-});
-
-Route::get('/kasir', function () {
-    return view('kasir');
-});
-
-Route::get('/detail-pesanan-kasir', function () {
-    return view('detail-pesanan-kasir');
-});
-
-Route::view('/login', 'login');
-Route::view('/register', 'register');
-Route::view('/pelanggan', 'pelanggan');
-
-Route::post('/cart/add/{id}', [CartController::class, 'add']);
-Route::get('/keranjang', [CartController::class, 'index']);

@@ -12,9 +12,10 @@ content="no-cache">
 <meta http-equiv="Expires"
 content="0">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<title>Kasir</title>
+<title>Pesanan Baru</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
@@ -133,17 +134,13 @@ body{
 .header{
     display:flex;
     justify-content:space-between;
-    align-items:flex-start;
+    align-items:center;
     margin-bottom:35px;
 }
 
 .header h1{
     color:#5a0010;
     font-size:45px;
-}
-
-.header p{
-    font-size:20px;
 }
 
 .date{
@@ -158,36 +155,50 @@ body{
     background:white;
 }
 
-/* CARD */
+/* TABLE */
 
-.cards{
-    display:flex;
-    gap:40px;
-    margin-top:30px;
-}
-
-.card{
-    width:320px;
+.table-box{
     background:white;
     border:2px solid #bbb;
-    border-radius:20px;
-    padding:25px;
-    display:flex;
-    align-items:center;
-    gap:20px;
+    border-radius:18px;
+    overflow:hidden;
 }
 
-.card i{
-    font-size:55px;
-    color:#5a0010;
+table{
+    width:100%;
+    border-collapse:collapse;
 }
 
-.card h2{
-    font-size:42px;
+th{
+    background:#efefef;
+    padding:20px;
+    font-size:22px;
 }
 
-.card p{
+td{
+    padding:25px 15px;
+    text-align:center;
     font-size:20px;
+    border-top:2px solid #ccc;
+}
+
+.status{
+    background:#ffe6c7;
+    color:#ff7a00;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
+}
+
+.btn{
+    background:#5a0010;
+    color:white;
+    text-decoration:none;
+    padding:10px 18px;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:600;
 }
 
 </style>
@@ -218,12 +229,12 @@ use Illuminate\Support\Facades\Auth;
 
         <div class="menu">
 
-            <a href="/kasir" class="active">
+            <a href="/kasir">
                 <i class="fa-solid fa-house"></i>
                 Beranda
             </a>
 
-            <a href="/pesanan-baru">
+            <a href="/pesanan-baru" class="active">
                 <i class="fa-solid fa-clipboard-list"></i>
                 Pesanan Baru
             </a>
@@ -266,17 +277,7 @@ use Illuminate\Support\Facades\Auth;
 
     <div class="header">
 
-        <div>
-
-            <h1>
-                Selamat datang, {{ Auth::user()->nama }}! 👋🏻
-            </h1>
-
-            <p>
-                Berikut ringkasan aktivitas hari ini.
-            </p>
-
-        </div>
+        <h1>Pesanan Baru</h1>
 
         <div class="date">
 
@@ -288,45 +289,60 @@ use Illuminate\Support\Facades\Auth;
 
     </div>
 
-    <div class="cards">
+    <div class="table-box">
 
-        <div class="card">
+        <table>
 
-            <i class="fa-solid fa-clipboard-list"></i>
+            <tr>
+                <th>No. Pesanan</th>
+                <th>Meja</th>
+                <th>Pelanggan</th>
+                <th>Waktu</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
 
-            <div>
-                <p>Pesanan Baru</p>
-                <h2>{{ $jumlahPesanan }}</h2>
-                <p>Pesanan</p>
-            </div>
+            @foreach($orders as $order)
 
-        </div>
+            <tr>
 
-        <div class="card">
+                <td>#{{ $order->kode_order }}</td>
 
-            <i class="fa-solid fa-file-invoice-dollar"></i>
+                <td>Meja {{ $order->nomor_meja }}</td>
 
-            <div>
-                <p>Transaksi Selesai</p>
-                <h2>{{ $pesananDiproses }}</h2>
-                <p>Transaksi</p>
-            </div>
+                <td>{{ $order->nama_pelanggan }}</td>
 
-        </div>
+                <td>
+                    {{ $order->created_at->format('H:i') }}
+                </td>
 
-        <div class="card">
+                <td>
+                    Rp {{ number_format($order->total_harga,0,',','.') }}
+                </td>
 
-            <i class="fa-solid fa-chart-column"></i>
+                <td>
+                    <span class="status">
+                        {{ $order->status }}
+                    </span>
+                </td>
 
-            <div>
-                <p>Pendapatan Hari Ini</p>
-                <h2>
-                    Rp {{ number_format($pendapatan,0,',','.') }}
-                </h2>
-                <p>Total</p>
-            </div>
+                <td>
 
-        </div>
+                    <a href="/detail-pesanan-kasir/{{ $order->id }}"
+                    class="btn">
+
+                        Proses
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            @endforeach
+
+        </table>
 
     </div>
 

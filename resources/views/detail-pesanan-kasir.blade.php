@@ -2,6 +2,16 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+
+<meta http-equiv="Cache-Control"
+content="no-cache, no-store, must-revalidate">
+
+<meta http-equiv="Pragma"
+content="no-cache">
+
+<meta http-equiv="Expires"
+content="0">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Detail Pesanan</title>
@@ -101,6 +111,47 @@ body{
     cursor:pointer;
 }
 
+.button-row{
+    margin-top:180px;
+    display:flex;
+    gap:15px;
+}
+
+.process-btn{
+    width:250px;
+    height:70px;
+    border:none;
+    border-radius:15px;
+    background:#5a0010;
+    color:white;
+    font-size:22px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.cancel-btn{
+    width:200px;
+    height:70px;
+    border:4px solid #5a0010;
+    border-radius:15px;
+    background:white;
+    color:#5a0010;
+    font-size:22px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.back-btn{
+    margin-top:30px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:#5a0010;
+    font-size:28px;
+    font-weight:600;
+}
+
 table{
     width:100%;
     border-collapse:collapse;
@@ -142,7 +193,7 @@ td{
 
     <div class="kode">
         <p>No Pesanan</p>
-        <h2>#ORD-20240519-0012</h2>
+        <h2>#{{ $order->kode_order }}</h2>
     </div>
 
 </div>
@@ -157,29 +208,50 @@ td{
 
         <div class="info">
             <span>Pelanggan</span>
-            <span>Dina Rahma Firzana</span>
+            <span>{{ $order->nama_pelanggan }}</span>
         </div>
 
         <div class="info">
             <span>Meja</span>
-            <span>Meja 5</span>
+            <span>Meja {{ $order->nomor_meja }}</span>
         </div>
 
         <div class="info">
             <span>Waktu Pesan</span>
-            <span>19 Mei 2024, 12.25</span>
+            <span>
+                {{ $order->created_at->format('d M Y, H:i') }}
+            </span>
         </div>
 
         <div class="info">
             <span>Jumlah Pesan</span>
-            <span>2 Item</span>
+            <span>{{ $order->items->count() }} Item</span>
         </div>
 
-        <button class="btn">
-            Proses Pembayaran
-        </button>
+        <div class="button-row">
 
-    </div>
+            <a href="/konfirmasi-pembayaran/{{ $order->id }}">
+                <button type="button" class="btn process-btn">
+                    Proses Pembayaran
+                </button>
+            </a>
+
+            <form action="/batalkan-pesanan/{{ $order->id }}" method="POST">
+                @csrf
+
+                <button class="btn cancel-btn">
+                    Batalkan
+                </button>
+            </form>
+
+        </div>
+
+        <a href="/kasir" class="back-btn">
+            <i class="fa-solid fa-chevron-left"></i>
+            Kembali
+        </a>
+
+</div>
 
     <!-- RIGHT -->
 
@@ -197,27 +269,35 @@ td{
                 <th>Subtotal</th>
             </tr>
 
-            <tr>
-                <td>1</td>
-                <td>Nasi Goreng</td>
-                <td>1</td>
-                <td>Rp 20.000</td>
-                <td>Rp 20.000</td>
-            </tr>
+            @foreach($order->items as $item)
 
             <tr>
-                <td>2</td>
-                <td>Es Teh</td>
-                <td>1</td>
-                <td>Rp 3.000</td>
-                <td>Rp 3.000</td>
+
+                <td>{{ $loop->iteration }}</td>
+
+                <td>{{ $item->menu->nama_menu }}</td>
+
+                <td>{{ $item->jumlah }}</td>
+
+                <td>
+                    Rp {{ number_format($item->harga,0,',','.') }}
+                </td>
+
+                <td>
+                    Rp {{ number_format($item->subtotal,0,',','.') }}
+                </td>
+
             </tr>
+
+            @endforeach
 
         </table>
 
         <div class="total">
             <span>Total</span>
-            <span class="harga">Rp 23.000</span>
+            <span class="harga">
+                Rp {{ number_format($order->total_harga,0,',','.') }}
+            </span>
         </div>
 
     </div>
