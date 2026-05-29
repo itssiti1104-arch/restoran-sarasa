@@ -185,8 +185,6 @@ td{
 </head>
 <body>
 
-<a href="/kasir" class="back">‹ Kembali</a>
-
 <div class="header">
 
     <h1>Detail Pesanan</h1>
@@ -246,7 +244,7 @@ td{
 
         </div>
 
-        <a href="/kasir" class="back-btn">
+        <a href="/pesanan-baru" class="back-btn">
             <i class="fa-solid fa-chevron-left"></i>
             Kembali
         </a>

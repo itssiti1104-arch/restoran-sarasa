@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\DapurController;
 
 /*
 |--------------------------------------------------------------------------
@@ -193,11 +194,26 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
 
 Route::middleware(['auth', 'role:dapur'])->group(function () {
 
-    Route::get('/dapur', function () {
+    Route::get(
+        '/dapur',
+        [DapurController::class, 'index']
+    );
 
-        return view('dapur');
+    Route::get(
+        '/pesanan-masuk-dapur',
+        [DapurController::class, 'pesananMasuk']
+    );
 
-    });
+    Route::get(
+        '/detail-pesanan-dapur/{id}',
+        [DapurController::class, 'detailPesanan']
+    );
+
+    Route::post(
+        '/update-status-dapur/{id}',
+        [DapurController::class, 'updateStatus']
+    );
+
 });
 
 /*

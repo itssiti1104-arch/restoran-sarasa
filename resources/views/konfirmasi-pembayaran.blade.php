@@ -159,11 +159,6 @@ body{
 </head>
 <body>
 
-<a href="/detail-pesanan-kasir/{{ $order->id }}"
-class="back">
-← Kembali
-</a>
-
 <div class="container">
 
     <!-- LEFT -->
