@@ -268,7 +268,7 @@ body{
                 Riwayat Pesanan
             </a>
 
-            <a href="#">
+            <a href="/riwayat-pesanan-dapur">
                 <i class="fa-solid fa-chart-column"></i>
                 Laporan Harian
             </a>

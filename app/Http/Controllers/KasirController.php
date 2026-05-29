@@ -20,14 +20,22 @@ class KasirController extends Controller
             'created_at',
             today()
         )
-        ->where('status', 'pembayaran dikonfirmasi')
+        ->whereIn('status', [
+            'pembayaran dikonfirmasi',
+            'dalam proses',
+            'selesai'
+        ])
         ->count();
 
         $pendapatan = Order::whereDate(
             'created_at',
             today()
         )
-        ->where('status', 'pembayaran dikonfirmasi')
+        ->whereIn('status', [
+            'pembayaran dikonfirmasi',
+            'dalam proses',
+            'selesai'
+        ])
         ->sum('total_harga');
 
         return view('kasir', compact(

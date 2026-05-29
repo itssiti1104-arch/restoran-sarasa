@@ -250,8 +250,19 @@ td{
         </div>
 
         <div class="info">
-            <label>Total Item</label>
-            <span>: {{ count(json_decode($order->detail_pesanan,true)) }} Menu</span>
+            <label>Jumlah Item</label>
+
+            <span>:
+                {{ $order->items->count() }} Menu
+            </span>
+        </div>
+
+        <div class="info">
+            <label>Catatan</label>
+
+            <span>:
+                {{ $order->catatan ?? '-' }}
+            </span>
         </div>
 
     </div>
@@ -329,15 +340,15 @@ td{
             <th>Jumlah</th>
         </tr>
 
-        @foreach(json_decode($order->detail_pesanan,true) as $item)
+        @foreach($order->items as $item)
 
         <tr>
 
             <td>{{ $loop->iteration }}</td>
 
-            <td>{{ $item['nama'] }}</td>
+            <td>{{ $item->menu->nama_menu }}</td>
 
-            <td>{{ $item['jumlah'] }}</td>
+            <td>{{ $item->jumlah }}</td>
 
         </tr>
 

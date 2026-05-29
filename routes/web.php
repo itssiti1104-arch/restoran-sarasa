@@ -214,6 +214,11 @@ Route::middleware(['auth', 'role:dapur'])->group(function () {
         [DapurController::class, 'updateStatus']
     );
 
+    Route::get(
+        '/riwayat-pesanan-dapur',
+        [DapurController::class, 'riwayatPesanan']
+    );
+
 });
 
 /*

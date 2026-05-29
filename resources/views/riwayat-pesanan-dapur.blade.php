@@ -241,12 +241,12 @@ td{
                 Beranda
             </a>
 
-            <a href="/pesanan-masuk-dapur" class="active">
+            <a href="/pesanan-masuk-dapur">
                 <i class="fa-solid fa-clipboard-list"></i>
                 Pesanan Masuk
             </a>
 
-            <a href="/riwayat-pesanan-dapur">
+            <a href="/riwayat-pesanan-dapur" class="active">
                 <i class="fa-solid fa-clock-rotate-left"></i>
                 Riwayat Pesanan
             </a>
@@ -284,7 +284,7 @@ td{
 
     <div class="header">
 
-        <h1>Pesanan Masuk</h1>
+        <h1>Riwayat Pesanan</h1>
 
         <div class="date">
 

@@ -2,26 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Order;
 
 class DapurController extends Controller
 {
     public function index()
     {
-        $pesananMasuk = Order::where('status', 'baru')->count();
+        $pesananMasuk = Order::whereDate(
+            'created_at',
+            today()
+        )
+        ->where('status', 'pembayaran dikonfirmasi')
+        ->count();
 
-        $diproses = Order::where('status', 'diproses')->count();
+        $diproses = Order::whereDate(
+            'created_at',
+            today()
+        )
+        ->where('status', 'dalam proses')
+        ->count();
 
-        $siapDiantar = Order::where('status', 'siap diantar')->count();
+        $siapDiantar = Order::whereDate(
+            'created_at',
+            today()
+        )
+        ->where('status', 'selesai')
+        ->count();
 
         $selesaiHariIni = Order::whereDate(
             'created_at',
             today()
-        )->where(
-            'status',
-            'selesai'
-        )->count();
+        )
+        ->where('status', 'selesai')
+        ->count();
 
         return view('dapur', compact(
             'pesananMasuk',
@@ -33,10 +46,13 @@ class DapurController extends Controller
 
     public function pesananMasuk()
     {
-        $orders = Order::where(
-            'status',
-            'pembayaran dikonfirmasi'
-        )->latest()->get();
+        $orders = Order::with('items.menu')
+        ->whereIn('status', [
+            'pembayaran dikonfirmasi',
+            'dalam proses'
+        ])
+        ->latest()
+        ->get();
 
         return view(
             'pesanan-masuk-dapur',
@@ -46,7 +62,8 @@ class DapurController extends Controller
 
     public function detailPesanan($id)
     {
-        $order = Order::findOrFail($id);
+        $order = Order::with('items.menu')
+        ->findOrFail($id);
 
         return view(
             'detail-pesanan-dapur',
@@ -58,19 +75,31 @@ class DapurController extends Controller
     {
         $order = Order::findOrFail($id);
 
-        if($order->status == 'pembayaran dikonfirmasi')
-        {
-            $order->status = 'dalam proses';
-        }
+        if($order->status == 'pembayaran dikonfirmasi'){
 
-        elseif($order->status == 'dalam proses')
-        {
+            $order->status = 'dalam proses';
+
+        }elseif($order->status == 'dalam proses'){
+
             $order->status = 'selesai';
+
         }
 
         $order->save();
 
-        return redirect()->back();
+        return back();
     }
 
+    public function riwayatPesanan()
+    {
+        $orders = Order::with('items.menu')
+        ->where('status', 'selesai')
+        ->latest()
+        ->get();
+
+        return view(
+            'riwayat-pesanan-dapur',
+            compact('orders')
+        );
+    }
 }

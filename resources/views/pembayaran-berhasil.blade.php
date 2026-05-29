@@ -173,7 +173,7 @@ h1{
 
     <div class="actions">
 
-        <a href="/kasir" class="btn back">
+        <a href="/pesanan-baru" class="btn back">
             Kembali ke Antrean
         </a>
 
