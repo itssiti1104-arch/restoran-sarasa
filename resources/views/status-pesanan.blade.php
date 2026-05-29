@@ -226,9 +226,15 @@ body{
 
     <h1 class="title">Status Pesanan</h1>
 
+    @if(!$order)
+
+        <h2>Belum ada pesanan</h2>
+
+    @else
+
     <div class="timeline">
 
-        <!-- STEP -->
+        <!-- STEP 1 -->
 
         <div class="step">
 
@@ -239,14 +245,16 @@ body{
 
             <div class="content">
                 <h2>Pesanan Diterima</h2>
-                <p>Bayar langsung di kasir restoran.</p>
+                <p>Pesanan berhasil dibuat.</p>
             </div>
 
-            <div class="time">12.30</div>
+            <div class="time">
+                {{ $order->created_at->format('H:i') }}
+            </div>
 
         </div>
 
-        <!-- STEP -->
+        <!-- STEP 2 -->
 
         <div class="step">
 
@@ -257,65 +265,102 @@ body{
 
             <div class="content">
                 <h2>Menunggu Pembayaran</h2>
-                <p>Silakan lakukan pembayaran di kasir</p>
+                <p>Silakan lakukan pembayaran di kasir.</p>
             </div>
 
-            <div class="time">12.32</div>
+            <div class="time">
+                {{ $order->created_at->format('H:i') }}
+            </div>
 
         </div>
 
-        <!-- STEP -->
+        <!-- STEP 3 -->
 
         <div class="step">
 
             <div>
-                <div class="circle active-status">✓</div>
+
+                <div class="circle
+                {{ in_array($order->status, [
+                    'pembayaran dikonfirmasi',
+                    'dalam proses',
+                    'selesai'
+                ]) ? 'active-status' : '' }}">
+                    ✓
+                </div>
+
                 <div class="line"></div>
+
             </div>
 
             <div class="content">
                 <h2>Pembayaran Dikonfirmasi</h2>
-                <p>Pembayaran Anda telah berhasil.</p>
+                <p>Pembayaran telah berhasil.</p>
             </div>
 
-            <div class="time">12.35</div>
+            <div class="time">
+                {{ $order->updated_at->format('H:i') }}
+            </div>
 
         </div>
 
-        <!-- STEP -->
+        <!-- STEP 4 -->
 
         <div class="step">
 
             <div>
-                <div class="circle active-status">✓</div>
+
+                <div class="circle
+                {{ in_array($order->status, [
+                    'dalam proses',
+                    'selesai'
+                ]) ? 'active-status' : '' }}">
+                    ✓
+                </div>
+
                 <div class="line"></div>
+
             </div>
 
             <div class="content">
                 <h2>Pesanan Diproses</h2>
-                <p>Pesanan sedang diproses oleh dapur.</p>
+                <p>Pesanan sedang dibuat oleh dapur.</p>
             </div>
 
-            <div class="time">12.40</div>
+            <div class="time">
+                {{ $order->updated_at->format('H:i') }}
+            </div>
 
         </div>
 
-        <!-- STEP -->
+        <!-- STEP 5 -->
 
         <div class="step">
 
-            <div class="circle">✓</div>
+            <div class="circle
+            {{ $order->status == 'selesai'
+                ? 'active-status'
+                : '' }}">
+                ✓
+            </div>
 
             <div class="content">
                 <h2>Selesai</h2>
-                <p>Pesanan siap diantar ke meja Anda.</p>
+                <p>Pesanan siap diantar ke meja.</p>
             </div>
 
-            <div class="time">12.53</div>
+            <div class="time">
+                {{ $order->status == 'selesai'
+                    ? $order->updated_at->format('H:i')
+                    : '--:--'
+                }}
+            </div>
 
         </div>
 
     </div>
+
+    @endif
 
 </div>
 

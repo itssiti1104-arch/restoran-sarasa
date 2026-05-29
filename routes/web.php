@@ -145,6 +145,11 @@ Route::middleware(['auth', 'role:pelanggan'])->group(function () {
         [CartController::class, 'profilPelanggan']
     );
 
+    Route::get(
+        '/status-pesanan',
+        [PelangganController::class, 'statusPesanan']
+    );
+
 });
 
 /*

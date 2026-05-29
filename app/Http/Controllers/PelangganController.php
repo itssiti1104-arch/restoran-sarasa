@@ -109,4 +109,20 @@ class PelangganController extends Controller
 
         ]);
     }
+
+    public function statusPesanan()
+    {
+        $order = \App\Models\Order::where(
+            'user_id',
+            auth()->id()
+        )
+        ->latest()
+        ->first();
+
+        return view(
+            'status-pesanan',
+            compact('order')
+        );
+    }
+
 }

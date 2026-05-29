@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Menu;
 use App\Models\Order;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -15,13 +15,23 @@ class AdminController extends Controller
         $totalPesanan = Order::whereDate(
             'created_at',
             today()
-        )->count();
+        )
+        ->whereIn('status', [
+            'pembayaran dikonfirmasi',
+            'dalam proses',
+            'selesai'
+        ])
+        ->count();
 
         $pendapatan = Order::whereDate(
             'created_at',
             today()
         )
-        ->where('status', 'pembayaran dikonfirmasi')
+        ->whereIn('status', [
+            'pembayaran dikonfirmasi',
+            'dalam proses',
+            'selesai'
+        ])
         ->sum('total_harga');
 
         $totalUser = User::count();
@@ -32,15 +42,5 @@ class AdminController extends Controller
             'pendapatan',
             'totalUser'
         ));
-    }
-
-    public function manajemenAkun()
-    {
-        $users = User::latest()->get();
-
-        return view(
-            'manajemen-akun',
-            compact('users')
-        );
     }
 }
