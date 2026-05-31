@@ -92,10 +92,11 @@ class DapurController extends Controller
 
     public function riwayatPesanan()
     {
-        $orders = Order::with('items.menu')
-        ->where('status', 'selesai')
-        ->latest()
-        ->get();
+        $orders = Order::with('items')
+            ->whereDate('created_at', today())
+            ->where('status', 'selesai')
+            ->latest()
+            ->get();
 
         return view(
             'riwayat-pesanan-dapur',
