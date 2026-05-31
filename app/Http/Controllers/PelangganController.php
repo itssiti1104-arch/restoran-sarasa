@@ -18,10 +18,14 @@ class PelangganController extends Controller
 
     public function menuMakanan()
     {
-        $menus = Menu::where(
-            'kategori',
-            'makanan'
-        )->get();
+        $menus = Menu::whereHas('category', function($q){
+
+            $q->where(
+                'nama_kategori',
+                'makanan'
+            );
+
+        })->get();
 
         return view(
             'menu-makanan',
@@ -31,10 +35,14 @@ class PelangganController extends Controller
 
     public function menuMinuman()
     {
-        $menus = Menu::where(
-            'kategori',
-            'minuman'
-        )->get();
+        $menus = Menu::whereHas('category', function($q){
+
+            $q->where(
+                'nama_kategori',
+                'minuman'
+            );
+
+        })->get();
 
         return view(
             'menu-minuman',
@@ -44,10 +52,14 @@ class PelangganController extends Controller
 
     public function menuDessert()
     {
-        $menus = Menu::where(
-            'kategori',
-            'dessert'
-        )->get();
+        $menus = Menu::whereHas('category', function($q){
+
+            $q->where(
+                'nama_kategori',
+                'dessert'
+            );
+
+        })->get();
 
         return view(
             'menu-dessert',

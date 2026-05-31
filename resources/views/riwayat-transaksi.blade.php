@@ -234,12 +234,12 @@ use Illuminate\Support\Facades\Auth;
                 Beranda
             </a>
 
-            <a href="/pesanan-baru" class="active">
+            <a href="/pesanan-baru">
                 <i class="fa-solid fa-clipboard-list"></i>
                 Pesanan Baru
             </a>
 
-            <a href="/riwayat-transaksi">
+            <a href="/riwayat-transaksi" class="active">
                 <i class="fa-solid fa-file-invoice-dollar"></i>
                 Riwayat Transaksi
             </a>
@@ -332,7 +332,8 @@ use Illuminate\Support\Facades\Auth;
                     <a href="/detail-pesanan-kasir/{{ $order->id }}"
                     class="btn">
 
-                        Proses
+                        <i class="fa-solid fa-eye"></i>
+                        Lihat Struk
 
                     </a>
 

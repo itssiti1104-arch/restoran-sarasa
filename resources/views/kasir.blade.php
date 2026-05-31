@@ -228,7 +228,7 @@ use Illuminate\Support\Facades\Auth;
                 Pesanan Baru
             </a>
 
-            <a href="#">
+            <a href="/riwayat-transaksi">
                 <i class="fa-solid fa-file-invoice-dollar"></i>
                 Riwayat Transaksi
             </a>

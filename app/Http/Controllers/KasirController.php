@@ -105,4 +105,23 @@ class KasirController extends Controller
 
         return redirect('/kasir');
     }
+
+    public function riwayatTransaksi()
+    {
+        $orders = Order::whereIn('status', [
+            'pembayaran dikonfirmasi',
+            'dalam proses',
+            'selesai',
+            'dibatalkan'
+        ])
+        ->whereDate('created_at', today())
+        ->latest()
+        ->get();
+
+        return view(
+            'riwayat-transaksi',
+            compact('orders')
+        );
+    }
+
 }

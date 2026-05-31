@@ -43,4 +43,15 @@ class AdminController extends Controller
             'totalUser'
         ));
     }
+
+    public function manajemenAkun()
+    {
+        $users = User::latest()->get();
+
+        return view(
+            'manajemen-akun',
+            compact('users')
+        );
+    }
+
 }

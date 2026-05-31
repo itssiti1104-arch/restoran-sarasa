@@ -189,6 +189,12 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
         '/batalkan-pesanan/{id}',
         [KasirController::class, 'batalkanPesanan']
     );
+
+    Route::get(
+        '/riwayat-transaksi',
+        [KasirController::class, 'riwayatTransaksi']
+    );
+
 });
 
 /*
