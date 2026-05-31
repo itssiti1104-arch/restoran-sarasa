@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\Menu;
 use App\Models\Order;
@@ -134,6 +135,39 @@ class PelangganController extends Controller
         return view(
             'status-pesanan',
             compact('order')
+        );
+    }
+
+    public function ubahPassword(Request $request)
+    {
+        $request->validate([
+            'password_lama' => 'required',
+            'password_baru' => 'required|confirmed'
+        ]);
+
+        $user = auth()->user();
+
+        if(
+            !Hash::check(
+                $request->password_lama,
+                $user->password
+            )
+        ){
+            return back()
+            ->with('error',
+            'Password lama salah');
+        }
+
+        $user->password = Hash::make(
+            $request->password_baru
+        );
+
+        $user->save();
+
+        return back()
+        ->with(
+            'success',
+            'Password berhasil diubah'
         );
     }
 

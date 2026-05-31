@@ -150,6 +150,17 @@ Route::middleware(['auth', 'role:pelanggan'])->group(function () {
         [PelangganController::class, 'statusPesanan']
     );
 
+    /*
+    |--------------------------------------------------------------------------
+    | PROFIL SAYA
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post(
+        '/ubah-password',
+        [PelangganController::class, 'ubahPassword']
+    );
+
 });
 
 /*

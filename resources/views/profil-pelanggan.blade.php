@@ -198,6 +198,112 @@ body{
     font-size:22px;
 }
 
+/* EDIT PW */
+
+.modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.popup-content{
+    width:560px;
+    background:white;
+    border-radius:20px;
+    padding:30px;
+}
+
+.popup-content h2{
+    font-size:48px;
+    margin-bottom:5px;
+}
+
+.popup-subtitle{
+    font-size:18px;
+    color:#444;
+}
+
+.popup-content hr{
+    margin:15px 0 25px;
+    border:none;
+    border-top:3px solid #ddd;
+}
+
+.popup-content label{
+    display:block;
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:10px;
+    margin-top:25px;
+}
+
+.password-box{
+    position:relative;
+}
+
+.password-box input{
+    width:100%;
+    height:55px;
+    border:3px solid #bbb;
+    border-radius:15px;
+    padding:0 20px;
+    font-size:20px;
+}
+
+.password-box i{
+    position:absolute;
+    right:18px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+}
+
+.info-box{
+    margin-top:25px;
+    background:#eef6ff;
+    color:#333;
+    padding:15px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.popup-buttons{
+    display:flex;
+    gap:15px;
+    margin-top:25px;
+}
+
+.btn-cancel{
+    flex:1;
+    background:white;
+    border:3px solid #5a0010;
+    color:#5a0010;
+    padding:14px;
+    border-radius:12px;
+    font-size:20px;
+    font-weight:600;
+}
+
+.btn-save{
+    flex:1;
+    background:#5a0010;
+    border:none;
+    color:white;
+    padding:14px;
+    border-radius:12px;
+    font-size:20px;
+    font-weight:600;
+}
+
 </style>
 </head>
 <body>
@@ -283,10 +389,10 @@ body{
                 Edit Profil
             </a>
 
-            <a href="#" class="btn-password">
+            <button class="btn-password" onclick="openPasswordModal()">
                 <i class="fa-solid fa-lock"></i>
                 Ubah Password
-            </a>
+            </button>
 
         </div>
 
@@ -340,18 +446,146 @@ body{
 
 </div>
 
+<div id="passwordModal" class="modal">
+
+    <div class="popup-content">
+
+        <h2>Ubah Password</h2>
+
+        <p class="popup-subtitle">
+            Pastikan password baru Anda kuat dan aman
+        </p>
+
+        <hr>
+
+        <form action="/ubah-password" method="POST">
+
+            @csrf
+
+            <label>Password Lama</label>
+
+            <div class="password-box">
+
+                <input
+                    type="password"
+                    name="password_lama"
+                    required
+                >
+
+                <i class="fa-solid fa-eye"
+                onclick="togglePassword(this)">
+                </i>
+
+            </div>
+
+            <label>Password Baru</label>
+
+            <div class="password-box">
+
+                <input
+                    type="password"
+                    name="password_baru"
+                    required
+                >
+
+                <i class="fa-solid fa-eye"
+                onclick="togglePassword(this)">
+                </i>
+
+            </div>
+
+            <label>Konfirmasi Password Baru</label>
+
+            <div class="password-box">
+
+                <input
+                    type="password"
+                    name="password_baru_confirmation"
+                    required
+                >
+
+                <i class="fa-solid fa-eye"
+                onclick="togglePassword(this)">
+                </i>
+
+            </div>
+
+            <div class="info-box">
+
+                <i class="fa-solid fa-circle-info"></i>
+
+                Jangan bagikan password Anda kepada siapapun
+
+            </div>
+
+            <div class="popup-buttons">
+
+                <button
+                    type="button"
+                    class="btn-cancel"
+                    onclick="closePasswordModal()"
+                >
+                    Batal
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn-save"
+                >
+                    Simpan Perubahan
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
 <script>
+    
+function togglePassword(icon){
 
-function togglePassword(id){
+    let input =
+    icon.parentElement.querySelector('input');
 
-    const input = document.getElementById(id);
+    if(input.type === 'password'){
 
-    if(input.type === "password"){
-        input.type = "text";
+        input.type = 'text';
+
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+
     }else{
-        input.type = "password";
+
+        input.type = 'password';
+
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+
     }
 
+}
+
+function openPasswordModal(){
+    document.getElementById('passwordModal').style.display = 'flex';
+}
+
+function closePasswordModal(){
+    document.getElementById('passwordModal').style.display = 'none';
+}
+
+</script>
+
+<script>
+
+function openPasswordModal(){
+    document.getElementById('passwordModal').style.display = 'flex';
+}
+
+function closePasswordModal(){
+    document.getElementById('passwordModal').style.display = 'none';
 }
 
 </script>
