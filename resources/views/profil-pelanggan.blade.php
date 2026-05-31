@@ -99,108 +99,103 @@ body{
 
 .main{
     flex:1;
-    padding:40px 60px;
+    padding:35px;
 }
 
-.title{
-    font-size:60px;
-    text-align:center;
-    margin-bottom:40px;
-}
-
-/* CONTENT */
-
-.profile-container{
-    display:flex;
-    justify-content:space-between;
-    gap:70px;
-}
-
-.form-section{
-    flex:1;
-}
-
-.form-group{
-    margin-bottom:20px;
-}
-
-.form-group label{
-    display:block;
-    font-size:28px;
+.page-title{
+    font-size:58px;
     font-weight:700;
-    margin-bottom:8px;
-}
-
-.form-group input{
-    width:100%;
-    height:65px;
-    border:4px solid #b5b5b5;
-    border-radius:15px;
-    padding:0 18px;
-    font-size:24px;
-    outline:none;
-}
-
-/* PASSWORD */
-
-.password-box{
-    position:relative;
-}
-
-.password-box i{
-    position:absolute;
-    right:20px;
-    top:50%;
-    transform:translateY(-50%);
-    font-size:26px;
-    cursor:pointer;
-}
-
-/* BUTTON */
-
-.save-btn{
-    margin-top:20px;
-    background:#5a0010;
-    color:white;
-    border:none;
-    padding:18px 45px;
-    border-radius:15px;
-    font-size:24px;
-    font-weight:600;
-    cursor:pointer;
-}
-
-/* CARD */
-
-.profile-card{
-    width:430px;
-    height:560px;
-    border:4px solid #b5b5b5;
-    border-radius:20px;
-    padding:40px 30px;
-    text-align:center;
-}
-
-.profile-card img{
-    width:220px;
-    margin-bottom:20px;
-}
-
-.profile-card h2{
-    font-size:34px;
     margin-bottom:5px;
 }
 
-.profile-card p{
+.page-subtitle{
+    font-size:22px;
+    color:#444;
+    margin-bottom:30px;
+}
+
+.profile-wrapper{
+    border:2px solid #bdbdbd;
+    border-radius:20px;
+    padding:28px;
+    display:flex;
+    gap:25px;
+}
+
+.left-card{
+    width:400px;
+    border:2px solid #bdbdbd;
+    border-radius:18px;
+    padding:25px;
+    text-align:center;
+}
+
+.left-card img{
+    width:180px;
+    margin-bottom:15px;
+}
+
+.left-card h2{
     font-size:28px;
-    color:#333;
+}
+
+.left-card p{
+    font-size:18px;
+    color:#444;
 }
 
 .profile-line{
+    height:2px;
+    background:#ccc;
+    margin:20px 0;
+}
+
+.btn-profile{
+    display:block;
     width:100%;
-    height:4px;
-    background:#d1d1d1;
-    margin-top:30px;
+    background:#5a0010;
+    color:white;
+    text-decoration:none;
+    padding:14px;
+    border-radius:12px;
+    font-size:22px;
+    margin-bottom:15px;
+}
+
+.btn-password{
+    display:block;
+    width:100%;
+    background:white;
+    color:#5a0010;
+    border:2px solid #5a0010;
+    text-decoration:none;
+    padding:14px;
+    border-radius:12px;
+    font-size:22px;
+}
+
+.right-content{
+    flex:1;
+}
+
+.right-content h2{
+    font-size:38px;
+    margin-bottom:25px;
+}
+
+.info-row{
+    display:flex;
+    border-bottom:2px solid #d5d5d5;
+    padding:18px 0;
+}
+
+.info-label{
+    width:250px;
+    font-size:22px;
+}
+
+.info-value{
+    font-size:22px;
 }
 
 </style>
@@ -262,69 +257,82 @@ body{
 
 <div class="main">
 
-    <h1 class="title">Data Diri</h1>
+    <h1 class="page-title">
+        Profil saya
+    </h1>
 
-    <div class="profile-container">
+    <p class="page-subtitle">
+        Kelola informasi profil dan akun Anda
+    </p>
 
-        <!-- FORM -->
+    <div class="profile-wrapper">
 
-        <div class="form-section">
+        <div class="left-card">
 
-            <div class="form-group">
-                <label>Nama Lengkap</label>
-                <input type="text" value="Dina Rahma Firzana">
-            </div>
+            <img
+            src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
 
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" value="dina.rahma">
-            </div>
-
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" value="dina@gmail.com">
-            </div>
-
-            <div class="form-group">
-                <label>No. Telepon</label>
-                <input type="text" value="0856789019087">
-            </div>
-
-            <div class="form-group">
-                <label>Ubah Password</label>
-
-                <div class="password-box">
-                    <input type="password" value="dina123" id="password">
-                    <i class="fa-solid fa-eye" onclick="togglePassword('password')"></i>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Konfirmasi Password</label>
-
-                <div class="password-box">
-                    <input type="password" value="dina123" id="confirmPassword">
-                    <i class="fa-solid fa-eye" onclick="togglePassword('confirmPassword')"></i>
-                </div>
-            </div>
-
-            <button class="save-btn">
-                Simpan Perubahan
-            </button>
-
-        </div>
-
-        <!-- CARD -->
-
-        <div class="profile-card">
-
-            <img src="/images/profile.png">
-
-            <h2>Dina Rahma Firzana</h2>
+            <h2>{{ Auth::user()->nama }}</h2>
 
             <p>Pelanggan</p>
 
             <div class="profile-line"></div>
+
+            <a href="#" class="btn-profile">
+                <i class="fa-solid fa-pen"></i>
+                Edit Profil
+            </a>
+
+            <a href="#" class="btn-password">
+                <i class="fa-solid fa-lock"></i>
+                Ubah Password
+            </a>
+
+        </div>
+
+        <div class="right-content">
+
+            <h2>Informasi Pribadi</h2>
+
+            <div class="info-row">
+                <div class="info-label">
+                    Nama Lengkap
+                </div>
+
+                <div class="info-value">
+                    {{ Auth::user()->nama }}
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">
+                    Username
+                </div>
+
+                <div class="info-value">
+                    {{ Auth::user()->username }}
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">
+                    Email
+                </div>
+
+                <div class="info-value">
+                    {{ Auth::user()->email }}
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">
+                    No. Telepon
+                </div>
+
+                <div class="info-value">
+                    {{ Auth::user()->nomor_telepon }}
+                </div>
+            </div>
 
         </div>
 
