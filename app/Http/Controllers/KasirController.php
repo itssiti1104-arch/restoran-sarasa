@@ -81,11 +81,27 @@ class KasirController extends Controller
         );
     }
 
-    public function prosesPembayaran($id)
+    public function prosesPembayaran(
+        Request $request,
+        $id
+    )
     {
         $order = Order::findOrFail($id);
 
-        $order->status = 'pembayaran dikonfirmasi';
+        $uangDiterima = $request->uang_diterima;
+
+        $kembalian =
+            $uangDiterima -
+            $order->total_harga;
+
+        $order->uang_diterima =
+            $uangDiterima;
+
+        $order->kembalian =
+            $kembalian;
+
+        $order->status =
+            'pembayaran dikonfirmasi';
 
         $order->save();
 
@@ -108,7 +124,8 @@ class KasirController extends Controller
 
     public function riwayatTransaksi()
     {
-        $orders = Order::whereIn('status', [
+        $orders = Order::with('items.menu')
+        ->whereIn('status', [
             'pembayaran dikonfirmasi',
             'dalam proses',
             'selesai',

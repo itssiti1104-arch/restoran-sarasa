@@ -14,6 +14,8 @@ class Order extends Model
         'nomor_meja',
         'catatan',
         'total_harga',
+        'uang_diterima',
+        'kembalian',
         'status'
 
     ];

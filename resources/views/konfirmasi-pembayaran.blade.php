@@ -244,6 +244,7 @@ body{
 
                     <input
                         type="number"
+                        name="uang_diterima"
                         id="uangDiterima"
                         class="input"
                         placeholder="0"

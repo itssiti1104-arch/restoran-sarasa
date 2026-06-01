@@ -201,6 +201,102 @@ td{
     font-weight:600;
 }
 
+/* POPUP STRUK */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.struk-popup{
+    width:560px;
+    background:white;
+    border:4px solid #b5b5b5;
+    border-radius:20px;
+    padding:25px;
+    position:relative;
+
+    font-family:'Courier New', monospace;
+}
+
+.struk-popup *{
+    font-family:'Courier New', monospace;
+}
+
+.close-btn{
+    position:absolute;
+    top:10px;
+    right:15px;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.struk-header{
+    text-align:center;
+}
+
+.struk-header img{
+    width:220px;
+}
+
+.struk-header p{
+    margin-top:10px;
+    font-size:16px;
+    line-height:1.5;
+}
+
+.struk-line{
+    border-top:4px solid #ddd;
+    margin:15px 0;
+}
+
+.struk-info p{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+    font-size:18px;
+}
+
+.struk-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.struk-table th,
+.struk-table td{
+    border:none;
+    padding:6px 0;
+    font-size:18px;
+    text-align:left;
+}
+
+.struk-table th{
+    font-weight:normal;
+}
+
+.struk-right{
+    text-align:right;
+}
+
+.struk-total-row{
+    display:flex;
+    justify-content:space-between;
+    margin:12px 0;
+    font-size:18px;
+}
+
+.struk-footer{
+    text-align:center;
+    font-size:18px;
+    line-height:1.6;
+    margin-top:10px;
+}
+
 </style>
 </head>
 
@@ -329,13 +425,38 @@ use Illuminate\Support\Facades\Auth;
 
                 <td>
 
-                    <a href="/detail-pesanan-kasir/{{ $order->id }}"
-                    class="btn">
-
+                    <button
+                        class="btn"
+                        onclick='openStrukModal(
+                            {{ $order->id }},
+                            "{{ $order->kode_order }}",
+                            "{{ $order->nomor_meja }}",
+                            "{{ $order->created_at->format("d/m/Y H:i") }}",
+                            "{{ Auth::user()->nama }}",
+                            "{{ number_format($order->total_harga,0,",",".") }}"
+                        )'
+                    >
                         <i class="fa-solid fa-eye"></i>
                         Lihat Struk
+                    </button>
 
-                    </a>
+                    <div
+                        id="order{{ $order->id }}"
+                        style="display:none"
+                    >
+                        @foreach($order->items as $item)
+
+                            <div
+                                class="item"
+                                data-menu="{{ $item->menu->nama_menu }}"
+                                data-jumlah="{{ $item->jumlah }}"
+                                data-harga="{{ number_format($item->harga,0,',','.') }}"
+                                data-subtotal="{{ number_format($item->subtotal,0,',','.') }}"
+                            >
+                            </div>
+
+                        @endforeach
+                    </div>
 
                 </td>
 
@@ -348,6 +469,151 @@ use Illuminate\Support\Facades\Auth;
     </div>
 
 </div>
+
+<div id="strukModal" class="modal">
+
+    <div class="struk-popup">
+
+        <span
+            class="close-btn"
+            onclick="closeStrukModal()"
+        >
+            &times;
+        </span>
+
+        <div class="struk-header">
+
+            <img src="/images/logo_maroon.png">
+
+            <p>
+                Jl. Kuliner No. 123, Sumenep
+                <br>
+                Telp. 0857 4566 7533
+            </p>
+
+        </div>
+
+        <div class="struk-line"></div>
+
+        <div id="strukContent"></div>
+
+    </div>
+
+</div>
+
+<script>
+
+function openStrukModal(
+    id,
+    kode,
+    meja,
+    tanggal,
+    kasir,
+    total
+){
+
+    let items =
+        document.querySelectorAll(
+            '#order'+id+' .item'
+        );
+
+    let menuRows = '';
+
+    items.forEach(item => {
+
+        menuRows += `
+        <tr>
+            <td>${item.dataset.menu}</td>
+            <td>${item.dataset.jumlah}</td>
+            <td>Rp ${item.dataset.harga}</td>
+            <td>Rp ${item.dataset.subtotal}</td>
+        </tr>
+        `;
+
+    });
+
+    document.getElementById('strukContent').innerHTML = `
+
+        <div class="struk-info">
+
+            <p>
+                <b>No. Pesanan</b>
+                <span>${kode}</span>
+            </p>
+
+            <p>
+                <b>Meja</b>
+                <span>${meja}</span>
+            </p>
+
+            <p>
+                <b>Tanggal</b>
+                <span>${tanggal}</span>
+            </p>
+
+            <p>
+                <b>Kasir</b>
+                <span>${kasir}</span>
+            </p>
+
+        </div>
+
+        <div class="struk-line"></div>
+
+        <table class="struk-table">
+
+            <tr>
+                <th>Menu</th>
+                <th>Jumlah</th>
+                <th>Harga</th>
+                <th>Subtotal</th>
+            </tr>
+
+            ${menuRows}
+
+        </table>
+
+        <div class="struk-line"></div>
+
+        <div class="struk-total-row">
+            <span>Total</span>
+            <span>Rp ${total}</span>
+        </div>
+
+        <div class="struk-total-row">
+            <span>Uang Diterima</span>
+            <span>-</span>
+        </div>
+
+        <div class="struk-total-row">
+            <span>Kembalian</span>
+            <span>-</span>
+        </div>
+
+        <div class="struk-line"></div>
+
+        <div class="struk-footer">
+            Terima Kasih<br>
+            Silakan Kembali Lagi
+        </div>
+
+    `;
+
+    document.getElementById(
+        'strukModal'
+    ).style.display = 'flex';
+
+}
+
+function closeStrukModal(){
+
+    document.getElementById(
+        'strukModal'
+    ).style.display = 'none';
+
+}
+
+</script>
 
 </body>
 </html>
