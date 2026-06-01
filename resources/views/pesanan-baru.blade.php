@@ -298,6 +298,7 @@ use Illuminate\Support\Facades\Auth;
                 <th>Meja</th>
                 <th>Pelanggan</th>
                 <th>Waktu</th>
+                <th>Daftar Pesanan</th>
                 <th>Total</th>
                 <th>Status</th>
                 <th>Aksi</th>
@@ -315,6 +316,10 @@ use Illuminate\Support\Facades\Auth;
 
                 <td>
                     {{ $order->created_at->format('H:i') }}
+                </td>
+
+                <td>
+                    {{ $order->items->count() }} Menu
                 </td>
 
                 <td>

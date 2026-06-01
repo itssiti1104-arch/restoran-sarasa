@@ -394,6 +394,7 @@ use Illuminate\Support\Facades\Auth;
                 <th>Meja</th>
                 <th>Pelanggan</th>
                 <th>Waktu</th>
+                <th>Daftar Pesanan</th>
                 <th>Total</th>
                 <th>Status</th>
                 <th>Aksi</th>
@@ -411,6 +412,10 @@ use Illuminate\Support\Facades\Auth;
 
                 <td>
                     {{ $order->created_at->format('H:i') }}
+                </td>
+
+                <td>
+                    {{ $order->items->count() }} Menu
                 </td>
 
                 <td>
@@ -433,7 +438,9 @@ use Illuminate\Support\Facades\Auth;
                             "{{ $order->nomor_meja }}",
                             "{{ $order->created_at->format("d/m/Y H:i") }}",
                             "{{ Auth::user()->nama }}",
-                            "{{ number_format($order->total_harga,0,",",".") }}"
+                            "{{ number_format($order->total_harga,0,",",".") }}",
+                            "{{ number_format($order->uang_diterima,0,",",".") }}",
+                            "{{ number_format($order->kembalian,0,",",".") }}"
                         )'
                     >
                         <i class="fa-solid fa-eye"></i>
@@ -509,7 +516,9 @@ function openStrukModal(
     meja,
     tanggal,
     kasir,
-    total
+    total,
+    uangDiterima,
+    kembalian
 ){
 
     let items =
@@ -582,12 +591,12 @@ function openStrukModal(
 
         <div class="struk-total-row">
             <span>Uang Diterima</span>
-            <span>-</span>
+            <span>Rp ${uangDiterima}</span>
         </div>
 
         <div class="struk-total-row">
             <span>Kembalian</span>
-            <span>-</span>
+            <span>Rp ${kembalian}</span>
         </div>
 
         <div class="struk-line"></div>

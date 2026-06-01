@@ -263,12 +263,12 @@ body{
                 Pesanan Masuk
             </a>
 
-            <a href="/pesanan-masuk-dapur">
+            <a href="/riwayat-pesanan-dapur">
                 <i class="fa-solid fa-file-lines"></i>
                 Riwayat Pesanan
             </a>
 
-            <a href="/riwayat-pesanan-dapur">
+            <a href="laporan-harian-dapur">
                 <i class="fa-solid fa-chart-column"></i>
                 Laporan Harian
             </a>
