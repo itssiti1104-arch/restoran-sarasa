@@ -157,28 +157,16 @@ body{
     color:#666;
 }
 
-.date-box{
-    background:white;
-    border:2px solid #222;
-    border-radius:20px;
-    padding:18px 25px;
+.date{
+    border:2px solid #999;
+    border-radius:15px;
+    padding:15px 25px;
     display:flex;
     align-items:center;
     gap:15px;
-}
-
-.date-box i{
-    font-size:36px;
-    color:#333;
-}
-
-.date-box h3{
-    font-size:18px;
-}
-
-.date-box p{
-    font-size:16px;
-    color:#666;
+    font-size:22px;
+    font-weight:600;
+    background:white;
 }
 
 /* CARD */
@@ -316,13 +304,11 @@ body{
 
         </div>
 
-        <div class="date-box">
+        <div class="date">
 
-            <i class="fa-regular fa-calendar-days"></i>
+            <i class="fa-regular fa-calendar"></i>
 
-            <div>
-                <h3>{{ now()->translatedFormat('d F Y') }}</h3>
-            </div>
+            {{ now()->translatedFormat('d F Y') }}
 
         </div>
 
