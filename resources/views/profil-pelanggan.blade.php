@@ -244,6 +244,15 @@ body{
     margin-top:25px;
 }
 
+.popup-content input{
+    width:100%;
+    height:55px;
+    border:3px solid #bbb;
+    border-radius:15px;
+    padding:0 20px;
+    font-size:20px;
+}
+
 .password-box{
     position:relative;
 }
@@ -384,10 +393,13 @@ body{
 
             <div class="profile-line"></div>
 
-            <a href="#" class="btn-profile">
+            <button
+                class="btn-profile"
+                onclick="openEditModal()"
+            >
                 <i class="fa-solid fa-pen"></i>
                 Edit Profil
-            </a>
+            </button>
 
             <button class="btn-password" onclick="openPasswordModal()">
                 <i class="fa-solid fa-lock"></i>
@@ -543,6 +555,90 @@ body{
 
 </div>
 
+<div id="editModal" class="modal">
+
+    <div class="popup-content">
+
+        <h2>Edit Profil</h2>
+
+        <p class="popup-subtitle">
+            Perbaiki informasi profil Anda
+        </p>
+
+        <hr>
+
+        <form action="/update-profil" method="POST">
+
+            @csrf
+
+            <label>Nama Lengkap</label>
+
+            <input
+                type="text"
+                name="nama"
+                value="{{ Auth::user()->nama }}"
+                required
+            >
+
+            <label>Username</label>
+
+            <input
+                type="text"
+                name="username"
+                value="{{ Auth::user()->username }}"
+                required
+            >
+
+            <label>Email</label>
+
+            <input
+                type="email"
+                name="email"
+                value="{{ Auth::user()->email }}"
+                required
+            >
+
+            <label>No. Telepon</label>
+
+            <input
+                type="text"
+                name="nomor_telepon"
+                value="{{ Auth::user()->nomor_telepon }}"
+            >
+
+            <div class="info-box">
+
+                <i class="fa-solid fa-circle-info"></i>
+
+                Pastikan informasi yang Anda masukkan sudah benar.
+
+            </div>
+
+            <div class="popup-buttons">
+
+                <button
+                    type="button"
+                    class="btn-cancel"
+                    onclick="closeEditModal()"
+                >
+                    Batal
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn-save"
+                >
+                    Simpan Perubahan
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
 <script>
     
 function togglePassword(icon){
@@ -586,6 +682,22 @@ function openPasswordModal(){
 
 function closePasswordModal(){
     document.getElementById('passwordModal').style.display = 'none';
+}
+
+</script>
+
+<script>
+
+function openEditModal(){
+    document.getElementById(
+        'editModal'
+    ).style.display = 'flex';
+}
+
+function closeEditModal(){
+    document.getElementById(
+        'editModal'
+    ).style.display = 'none';
 }
 
 </script>

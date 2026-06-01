@@ -161,6 +161,12 @@ Route::middleware(['auth', 'role:pelanggan'])->group(function () {
         [PelangganController::class, 'ubahPassword']
     );
 
+    Route::post(
+        '/update-profil',
+        [PelangganController::class,
+        'updateProfil']
+    );
+
 });
 
 /*

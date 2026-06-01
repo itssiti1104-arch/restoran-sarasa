@@ -171,4 +171,19 @@ class PelangganController extends Controller
         );
     }
 
+    public function updateProfil(Request $request)
+    {
+        $user = Auth::user();
+
+        $user->nama = $request->nama;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->nomor_telepon =
+            $request->nomor_telepon;
+
+        $user->save();
+
+        return back();
+    }
+
 }
