@@ -131,8 +131,8 @@ Route::middleware(['auth', 'role:pelanggan'])->group(function () {
     );
 
     Route::get(
-        '/riwayat-pesanan',
-        [CartController::class, 'riwayatPesanan']
+        '/riwayat-pesanan', 
+        [PelangganController::class, 'riwayatPesanan']
     );
 
     Route::get(
@@ -281,4 +281,5 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         '/hapus-akun/{id}',
         [UserController::class, 'destroy']
     );
+
 });

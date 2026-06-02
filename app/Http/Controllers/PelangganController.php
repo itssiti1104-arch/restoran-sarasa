@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Menu;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\User;
 
 class PelangganController extends Controller
 {
@@ -125,16 +126,17 @@ class PelangganController extends Controller
 
     public function statusPesanan()
     {
-        $order = \App\Models\Order::where(
+        $orders = \App\Models\Order::where(
             'user_id',
             auth()->id()
         )
+        ->whereDate('created_at', today())
         ->latest()
-        ->first();
+        ->get();
 
         return view(
             'status-pesanan',
-            compact('order')
+            compact('orders')
         );
     }
 
@@ -186,4 +188,15 @@ class PelangganController extends Controller
         return back();
     }
 
+
+    public function riwayatPesanan()
+    {
+        $orders = Order::with('items.menu', 'kasir')
+            ->where('user_id', auth()->id())
+            ->where('status', 'selesai')
+            ->latest()
+            ->get();
+
+        return view('riwayat-pesanan', compact('orders'));
+    }
 }

@@ -402,6 +402,16 @@ use Illuminate\Support\Facades\Auth;
 
             @foreach($orders as $order)
 
+            @php
+            $tanggalBayar = $order->pembayaran_dikonfirmasi_at
+                ? $order->pembayaran_dikonfirmasi_at->format('d/m/Y H:i')
+                : '--';
+
+            $totalHarga = number_format($order->total_harga, 0, ',', '.');
+            $uangDiterima = number_format($order->uang_diterima, 0, ',', '.');
+            $kembalian = number_format($order->kembalian, 0, ',', '.');
+            @endphp
+
             <tr>
 
                 <td>#{{ $order->kode_order }}</td>
@@ -411,7 +421,10 @@ use Illuminate\Support\Facades\Auth;
                 <td>{{ $order->nama_pelanggan }}</td>
 
                 <td>
-                    {{ $order->created_at->format('H:i') }}
+                    {{ $order->pembayaran_dikonfirmasi_at
+                        ? $order->pembayaran_dikonfirmasi_at->format('H:i')
+                        : '--:--'
+                    }}
                 </td>
 
                 <td>
@@ -432,15 +445,15 @@ use Illuminate\Support\Facades\Auth;
 
                     <button
                         class="btn"
-                        onclick='openStrukModal(
+                       onclick='openStrukModal(
                             {{ $order->id }},
                             "{{ $order->kode_order }}",
                             "{{ $order->nomor_meja }}",
-                            "{{ $order->created_at->format("d/m/Y H:i") }}",
+                            "{{ $tanggalBayar }}",
                             "{{ Auth::user()->nama }}",
-                            "{{ number_format($order->total_harga,0,",",".") }}",
-                            "{{ number_format($order->uang_diterima,0,",",".") }}",
-                            "{{ number_format($order->kembalian,0,",",".") }}"
+                            "{{ $totalHarga }}",
+                            "{{ $uangDiterima }}",
+                            "{{ $kembalian }}"
                         )'
                     >
                         <i class="fa-solid fa-eye"></i>

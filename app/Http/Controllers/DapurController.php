@@ -78,10 +78,12 @@ class DapurController extends Controller
         if($order->status == 'pembayaran dikonfirmasi'){
 
             $order->status = 'dalam proses';
+            $order->mulai_proses_at = now();
 
         }elseif($order->status == 'dalam proses'){
 
             $order->status = 'selesai';
+            $order->selesai_at = now();
 
         }
 

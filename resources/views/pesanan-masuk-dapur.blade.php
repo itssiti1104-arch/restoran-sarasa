@@ -328,7 +328,17 @@ td{
                 </td>
 
                 <td>
-                    {{ $order->created_at->format('H:i') }}
+                    @if($order->status == 'pembayaran dikonfirmasi')
+                        {{ $order->pembayaran_dikonfirmasi_at
+                            ? $order->pembayaran_dikonfirmasi_at->format('H:i')
+                            : '--:--' }}
+
+                    @elseif($order->status == 'dalam proses')
+                        {{ $order->mulai_proses_at
+                            ? $order->mulai_proses_at->format('H:i')
+                            : '--:--' }}
+
+                    @endif
                 </td>
 
                 <td>

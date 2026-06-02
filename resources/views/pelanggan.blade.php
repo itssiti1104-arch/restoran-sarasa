@@ -38,28 +38,28 @@
         /* SIDEBAR */
 
         .sidebar{
-    width:320px;
-    min-height:100vh;
-    background:#5a0010;
-    padding:25px;
-    color:white;
-    overflow:hidden;
-}
+            width:320px;
+            min-height:100vh;
+            background:#5a0010;
+            padding:25px;
+            color:white;
+            overflow:hidden;
+        }
 
-        .logo{
-    display:flex;
-    align-items:center;
-    gap:15px;
-    margin-bottom:50px;
-}
-        .logo img{
-    width:75px;
-    flex-shrink:0;
-}
-.logo-text h1{
-    font-size:42px;
-    line-height:1;
-}
+                .logo{
+            display:flex;
+            align-items:center;
+            gap:15px;
+            margin-bottom:50px;
+        }
+                .logo img{
+            width:75px;
+            flex-shrink:0;
+        }
+        .logo-text h1{
+            font-size:42px;
+            line-height:1;
+        }
         .logo-text p{
             letter-spacing:3px;
             font-size:12px;

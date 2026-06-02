@@ -328,7 +328,7 @@ td{
                 </td>
 
                 <td>
-                    {{ $order->created_at->format('H:i') }}
+                    {{ $order->updated_at ? $order->updated_at->format('H:i') : '--' }}
                 </td>
 
                 <td>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
 class KasirController extends Controller
 {
@@ -81,34 +82,24 @@ class KasirController extends Controller
         );
     }
 
-    public function prosesPembayaran(
-        Request $request,
-        $id
-    )
+    public function prosesPembayaran(Request $request, $id)
     {
         $order = Order::findOrFail($id);
 
         $uangDiterima = $request->uang_diterima;
+        $kembalian = $uangDiterima - $order->total_harga;
 
-        $kembalian =
-            $uangDiterima -
-            $order->total_harga;
+        $order->uang_diterima = $uangDiterima;
+        $order->kembalian = $kembalian;
 
-        $order->uang_diterima =
-            $uangDiterima;
+        $order->nama_kasir = Auth::user()->nama;
 
-        $order->kembalian =
-            $kembalian;
-
-        $order->status =
-            'pembayaran dikonfirmasi';
+        $order->status = 'pembayaran dikonfirmasi';
+        $order->pembayaran_dikonfirmasi_at = now();
 
         $order->save();
 
-        return view(
-            'pembayaran-berhasil',
-            compact('order')
-        );
+        return view('pembayaran-berhasil', compact('order'));
     }
 
     public function batalkanPesanan($id)
@@ -124,7 +115,7 @@ class KasirController extends Controller
 
     public function riwayatTransaksi()
     {
-        $orders = Order::with('items.menu')
+        $orders = Order::with('items.menu', 'kasir')
         ->whereIn('status', [
             'pembayaran dikonfirmasi',
             'dalam proses',
