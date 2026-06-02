@@ -12,9 +12,10 @@ content="no-cache">
 <meta http-equiv="Expires"
 content="0">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<title>Kasir</title>
+<title>Laporan Harian</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
@@ -133,17 +134,13 @@ body{
 .header{
     display:flex;
     justify-content:space-between;
-    align-items:flex-start;
+    align-items:center;
     margin-bottom:35px;
 }
 
 .header h1{
     color:#5a0010;
     font-size:45px;
-}
-
-.header p{
-    font-size:20px;
 }
 
 .date{
@@ -158,12 +155,13 @@ body{
     background:white;
 }
 
-/* CARD */
+/* TABLE */
 
 .cards{
     display:flex;
     gap:40px;
     margin-top:30px;
+    margin-bottom:35px;
 }
 
 .card{
@@ -188,6 +186,59 @@ body{
 
 .card p{
     font-size:20px;
+}
+
+.table-box{
+    background:white;
+    border:2px solid #bbb;
+    border-radius:18px;
+    overflow:hidden;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#efefef;
+    padding:20px;
+    font-size:22px;
+}
+
+td{
+    padding:25px 15px;
+    text-align:center;
+    font-size:20px;
+    border-top:2px solid #ccc;
+}
+
+.status{
+    background:#ffe6c7;
+    color:#ff7a00;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
+}
+
+.btn{
+    background:#5a0010;
+    color:white;
+    text-decoration:none;
+    padding:10px 18px;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:600;
+}
+
+.status-selesai{
+    background:#dff0df;
+    color:#2f9e44;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
 }
 
 </style>
@@ -218,7 +269,7 @@ use Illuminate\Support\Facades\Auth;
 
         <div class="menu">
 
-            <a href="/kasir" class="active">
+            <a href="/kasir">
                 <i class="fa-solid fa-house"></i>
                 Beranda
             </a>
@@ -233,7 +284,7 @@ use Illuminate\Support\Facades\Auth;
                 Riwayat Transaksi
             </a>
 
-            <a href="/laporan-harian">
+            <a href="/laporan-harian" class="active">
                 <i class="fa-solid fa-chart-column"></i>
                 Laporan Harian
             </a>
@@ -266,17 +317,7 @@ use Illuminate\Support\Facades\Auth;
 
     <div class="header">
 
-        <div>
-
-            <h1>
-                Selamat datang, {{ Auth::user()->nama }}! 👋🏻
-            </h1>
-
-            <p>
-                Berikut ringkasan aktivitas hari ini.
-            </p>
-
-        </div>
+        <h1>Laporan Harian</h1>
 
         <div class="date">
 
@@ -292,12 +333,16 @@ use Illuminate\Support\Facades\Auth;
 
         <div class="card">
 
-            <i class="fa-solid fa-clipboard-list"></i>
+            <i class="fa-solid fa-chart-column"></i>
 
             <div>
-                <p>Pesanan Baru</p>
-                <h2>{{ $jumlahPesanan }}</h2>
-                <p>Pesanan</p>
+                <p>Total Penjualan</p>
+
+                <h2>
+                    Rp {{ number_format($totalPenjualan,0,',','.') }}
+                </h2>
+
+                <p>Pendapatan</p>
             </div>
 
         </div>
@@ -307,26 +352,65 @@ use Illuminate\Support\Facades\Auth;
             <i class="fa-solid fa-file-invoice-dollar"></i>
 
             <div>
-                <p>Transaksi Selesai</p>
-                <h2>{{ $pesananDiproses }}</h2>
+                <p>Total Transaksi</p>
+
+                <h2>{{ $totalTransaksi }}</h2>
+
                 <p>Transaksi</p>
             </div>
 
         </div>
 
-        <div class="card">
+    </div>
 
-            <i class="fa-solid fa-chart-column"></i>
+    <div class="table-box">
 
-            <div>
-                <p>Pendapatan Hari Ini</p>
-                <h2>
-                    Rp {{ number_format($pendapatan,0,',','.') }}
-                </h2>
-                <p>Total</p>
-            </div>
+        <table>
 
-        </div>
+            <tr>
+                <th>No</th>
+                <th>No. Pesanan</th>
+                <th>Meja</th>
+                <th>Pelanggan</th>
+                <th>Waktu</th>
+                <th>Daftar Pesanan</th>
+                <th>Total</th>
+                <th>Status</th>
+            </tr>
+
+            @foreach($orders as $order)
+
+            <tr>
+
+            <td>{{ $loop->iteration }}</td>
+
+            <td>#{{ $order->kode_order }}</td>
+
+            <td>Meja {{ $order->nomor_meja }}</td>
+
+            <td>{{ $order->nama_pelanggan }}</td>
+
+            <td>{{ $order->created_at->format('H:i') }}</td>
+
+            <td>
+                {{ $order->items->count() }} Menu
+            </td>
+
+            <td>
+                Rp {{ number_format($order->total_harga,0,',','.') }}
+            </td>
+
+            <td>
+                <span class="status-selesai">
+                    Selesai
+                </span>
+            </td>
+
+            </tr>
+
+            @endforeach
+
+        </table>
 
     </div>
 

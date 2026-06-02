@@ -132,4 +132,30 @@ class KasirController extends Controller
         );
     }
 
+    public function laporanHarian()
+    {
+        $orders = Order::whereDate(
+            'created_at',
+            today()
+        )
+        ->where('status', 'selesai')
+        ->latest()
+        ->get();
+
+        $totalTransaksi = $orders->count();
+
+        $totalPenjualan = $orders->sum(
+            'total_harga'
+        );
+
+        return view(
+            'laporan-harian',
+            compact(
+                'orders',
+                'totalTransaksi',
+                'totalPenjualan'
+            )
+        );
+    }
+
 }

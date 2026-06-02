@@ -212,6 +212,11 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
         [KasirController::class, 'riwayatTransaksi']
     );
 
+    Route::get(
+        '/laporan-harian',
+        [KasirController::class, 'laporanHarian']
+    );
+
 });
 
 /*

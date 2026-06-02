@@ -244,7 +244,7 @@ use Illuminate\Support\Facades\Auth;
                 Riwayat Transaksi
             </a>
 
-            <a href="#">
+            <a href="/laporan-harian">
                 <i class="fa-solid fa-chart-column"></i>
                 Laporan Harian
             </a>
