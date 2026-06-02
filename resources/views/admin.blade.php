@@ -210,7 +210,7 @@ body{
                 Beranda
             </a>
 
-            <a href="#">
+            <a href="/kelola-menu">
                 <i class="fa-solid fa-utensils"></i>
                 Kelola Menu
             </a>

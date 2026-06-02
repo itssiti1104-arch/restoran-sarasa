@@ -35,53 +35,83 @@ body{
     background:#f5f5f5;
 }
 
+/* SIDEBAR */
+
 .sidebar{
-    width:250px;
+    width:280px;
     min-height:100vh;
     background:#5a0010;
     color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.top-sidebar{
+    padding:25px;
 }
 
 .logo{
-    padding:25px;
-    border-bottom:1px solid rgba(255,255,255,0.2);
-}
-
-.logo h1{
-    font-size:42px;
-}
-
-.logo p{
-    font-size:12px;
-    letter-spacing:3px;
-}
-
-.menu{
-    padding:25px 0;
-}
-
-.menu a{
     display:flex;
     align-items:center;
     gap:15px;
+    margin-bottom:50px;
+}
+
+.logo img{
+    width:70px;
+}
+
+.logo-text h1{
+    font-size:42px;
+    line-height:1;
+}
+
+.logo-text p{
+    letter-spacing:3px;
+    font-size:12px;
+}
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.menu a{
     color:white;
     text-decoration:none;
-    padding:18px 25px;
-    font-size:20px;
-    font-weight:500;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:15px 20px;
+    border-radius:15px;
+    font-size:22px;
+    transition:0.3s;
 }
 
 .menu a:hover,
 .menu .active{
     background:white;
     color:#5a0010;
-    border-radius:0 15px 15px 0;
+}
+
+.menu i{
+    font-size:30px;
+}
+
+.bottom{
+    border-top:2px solid white;
+    padding:25px;
 }
 
 .logout{
-    margin-top:250px;
-    border-top:1px solid rgba(255,255,255,0.2);
-    padding-top:20px;
+    color:white;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    font-size:22px;
 }
 
 .main{
@@ -298,48 +328,47 @@ td{
 
 <div class="sidebar">
 
-    <div class="logo" style="border:none;">
+    <div class="top-sidebar">
 
-        <img
-            src="/images/logo_putih.png"
-            style="width:80px;"
-        >
+        <div class="logo">
 
-        <div>
-            <h1 style="font-size:42px;">sarasa</h1>
-            <p style="letter-spacing:3px; font-size:12px;">
-                RESTORAN
-            </p>
+            <img src="/images/logo_putih.png">
+
+            <div class="logo-text">
+                <h1>sarasa</h1>
+                <p>RESTORAN</p>
+            </div>
+
         </div>
 
-    </div>
+        <div class="menu">
 
-    <div class="menu">
+            <a href="/admin">
+                <i class="fa-solid fa-house"></i>
+                Beranda
+            </a>
 
-        <a href="/admin">
-            <i class="fa-solid fa-house"></i>
-            Beranda
-        </a>
+            <a href="/kelola-menu">
+                <i class="fa-solid fa-utensils"></i>
+                Kelola Menu
+            </a>
 
-        <a href="#">
-            <i class="fa-solid fa-utensils"></i>
-            Kelola Menu
-        </a>
+            <a href="#">
+                <i class="fa-solid fa-chart-column"></i>
+                Laporan Penjualan
+            </a>
 
-        <a href="#">
-            <i class="fa-solid fa-chart-column"></i>
-            Laporan Penjualan
-        </a>
+            <a href="/manajemen-akun" class="active">
+                <i class="fa-regular fa-user"></i>
+                Manajemen Akun
+            </a>
 
-        <a href="/manajemen-akun" class="active">
-            <i class="fa-regular fa-user"></i>
-            Manajemen Akun
-        </a>
+            <a href="/logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
 
-        <a href="/logout">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            Logout
-        </a>
+        </div>
 
     </div>
 

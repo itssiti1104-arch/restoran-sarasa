@@ -282,4 +282,24 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         [UserController::class, 'destroy']
     );
 
+    Route::get(
+        '/kelola-menu', 
+        [AdminController::class, 'kelolaMenu']
+    );
+
+    Route::post(
+        '/tambah-menu',
+        [AdminController::class, 'tambahMenu']
+    );
+
+    Route::put(
+        '/update-menu/{id}', 
+        [AdminController::class, 'updateMenu']
+    );
+
+    Route::delete(
+        '/hapus-menu/{id}',
+        [AdminController::class, 'hapusMenu']
+    );
+
 });
