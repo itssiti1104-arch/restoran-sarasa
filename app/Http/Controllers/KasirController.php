@@ -138,22 +138,41 @@ class KasirController extends Controller
             'created_at',
             today()
         )
-        ->where('status', 'selesai')
+        ->whereIn('status', [
+            'selesai',
+            'dibatalkan'
+        ])
         ->latest()
         ->get();
 
-        $totalTransaksi = $orders->count();
+        $totalTransaksi = Order::whereDate(
+            'created_at',
+            today()
+        )
+        ->where('status', 'selesai')
+        ->count();
 
-        $totalPenjualan = $orders->sum(
-            'total_harga'
-        );
+        $totalPenjualan = Order::whereDate(
+            'created_at',
+            today()
+        )
+        ->where('status', 'selesai')
+        ->sum('total_harga');
+
+        $pesananDibatalkan = Order::whereDate(
+            'created_at',
+            today()
+        )
+        ->where('status', 'dibatalkan')
+        ->count();
 
         return view(
             'laporan-harian',
             compact(
                 'orders',
                 'totalTransaksi',
-                'totalPenjualan'
+                'totalPenjualan',
+                'pesananDibatalkan'
             )
         );
     }

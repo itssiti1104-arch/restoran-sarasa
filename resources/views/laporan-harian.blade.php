@@ -241,6 +241,15 @@ td{
     font-weight:600;
 }
 
+.status-batal{
+    background:#ffe2e2;
+    color:#d63031;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
+}
+
 </style>
 </head>
 
@@ -361,7 +370,25 @@ use Illuminate\Support\Facades\Auth;
 
         </div>
 
+        <div class="card">
+
+            <i class="fa-solid fa-ban"></i>
+
+            <div>
+
+                <p>Dibatalkan</p>
+
+                <h2>{{ $pesananDibatalkan }}</h2>
+
+                <p>Pesanan</p>
+
+            </div>
+
+        </div>
+
     </div>
+
+    
 
     <div class="table-box">
 
@@ -401,9 +428,21 @@ use Illuminate\Support\Facades\Auth;
             </td>
 
             <td>
-                <span class="status-selesai">
-                    Selesai
-                </span>
+
+                @if($order->status == 'dibatalkan')
+
+                    <span class="status-batal">
+                        Dibatalkan
+                    </span>
+
+                @else
+
+                    <span class="status-selesai">
+                        Selesai
+                    </span>
+
+                @endif
+
             </td>
 
             </tr>
