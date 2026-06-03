@@ -252,6 +252,11 @@ Route::middleware(['auth', 'role:dapur'])->group(function () {
         [DapurController::class, 'riwayatPesanan']
     );
 
+    Route::get(
+        '/laporan-harian-dapur',
+        [DapurController::class, 'laporanHarian']
+    );
+
 });
 
 /*

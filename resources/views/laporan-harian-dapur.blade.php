@@ -15,7 +15,7 @@ content="0">
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Dapur</title>
+<title>Laporan Harian</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
@@ -137,24 +137,16 @@ body{
     padding:30px;
 }
 
-/* HEADER */
-
 .header{
     display:flex;
     justify-content:space-between;
-    align-items:flex-start;
+    align-items:center;
     margin-bottom:35px;
 }
 
 .header h1{
-    font-size:52px;
     color:#5a0010;
-    margin-bottom:8px;
-}
-
-.header p{
-    font-size:28px;
-    color:#666;
+    font-size:45px;
 }
 
 .date{
@@ -169,58 +161,100 @@ body{
     background:white;
 }
 
-/* CARD */
+/* TABLE */
 
-.card-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
+.cards{
+    display:flex;
+    gap:40px;
+    margin-top:30px;
     margin-bottom:35px;
 }
 
 .card{
+    width:320px;
     background:white;
-    border:2px solid #222;
+    border:2px solid #bbb;
     border-radius:20px;
-    padding:22px;
+    padding:25px;
     display:flex;
     align-items:center;
-    gap:18px;
+    gap:20px;
 }
 
-.card-icon{
-    width:90px;
-    height:90px;
-    border-radius:50%;
-    background:#f9d7dd;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.card-icon i{
-    font-size:46px;
+.card i{
+    font-size:55px;
     color:#5a0010;
 }
 
-.card-text h2{
-    font-size:22px;
-    margin-bottom:6px;
+.card h2{
+    font-size:42px;
 }
 
-.card-text h1{
-    font-size:58px;
-    line-height:1;
-}
-
-.card-text p{
+.card p{
     font-size:20px;
-    color:#666;
+}
+
+.table-box{
+    background:white;
+    border:2px solid #bbb;
+    border-radius:18px;
+    overflow:hidden;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#efefef;
+    padding:20px;
+    font-size:22px;
+}
+
+td{
+    padding:25px 15px;
+    text-align:center;
+    font-size:20px;
+    border-top:2px solid #ccc;
+}
+
+.status{
+    background:#ffe6c7;
+    color:#ff7a00;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
+}
+
+.btn{
+    background:#5a0010;
+    color:white;
+    text-decoration:none;
+    padding:10px 18px;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:600;
+}
+
+.status-selesai{
+    background:#dff0df;
+    color:#2f9e44;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
 }
 
 </style>
 </head>
+
 <body>
+
+@php
+use Illuminate\Support\Facades\Auth;
+@endphp
 
 <!-- SIDEBAR -->
 
@@ -241,7 +275,7 @@ body{
 
         <div class="menu">
 
-            <a href="/dapur" class="active">
+            <a href="/dapur">
                 <i class="fa-solid fa-house"></i>
                 Beranda
             </a>
@@ -256,7 +290,7 @@ body{
                 Riwayat Pesanan
             </a>
 
-            <a href="/laporan-harian-dapur">
+            <a href="/laporan-harian-dapur" class="active">
                 <i class="fa-solid fa-chart-column"></i>
                 Laporan Harian
             </a>
@@ -287,22 +321,9 @@ body{
 
 <div class="main">
 
-    <!-- HEADER -->
-
     <div class="header">
 
-        <div>
-
-            <h1>
-                Selamat datang,
-                {{ Auth::user()->nama }}! 👋🏻
-            </h1>
-
-            <p>
-                Kelola dan proses pesanan dari pelanggan
-            </p>
-
-        </div>
+        <h1>Laporan Harian</h1>
 
         <div class="date">
 
@@ -314,19 +335,15 @@ body{
 
     </div>
 
-    <!-- CARD -->
-
-    <div class="card-grid">
+    <div class="cards">
 
         <div class="card">
 
-            <div class="card-icon">
-                <i class="fa-regular fa-clipboard"></i>
-            </div>
+            <i class="fa-solid fa-utensils"></i>
 
-            <div class="card-text">
-                <p>Pesanan Masuk</p>
-                <h1>{{ $pesananMasuk }}</h1>
+            <div>
+                <p>Total Pesanan</p>
+                <h2>{{ $totalPesanan }}</h2>
                 <p>Pesanan</p>
             </div>
 
@@ -334,45 +351,78 @@ body{
 
         <div class="card">
 
-            <div class="card-icon">
-                <i class="fa-solid fa-bowl-food"></i>
-            </div>
+            <i class="fa-solid fa-circle-check"></i>
 
-            <div class="card-text">
-                <p>Dalam proses</p>
-                <h1>{{ $diproses }}</h1>
-                <p>Pesanan</p>
-            </div>
-
-        </div>
-
-        <div class="card">
-
-            <div class="card-icon">
-                <i class="fa-solid fa-bell-concierge"></i>
-            </div>
-
-            <div class="card-text">
-                <p>Siap Diantar</p>
-                <h1>{{ $siapDiantar }}</h1>
-                <p>Pesanan</p>
+            <div>
+                <p>Pesanan Selesai</p>
+                <h2>{{ $pesananSelesai }}</h2>
+                <p>Selesai</p>
             </div>
 
         </div>
 
         <div class="card">
 
-            <div class="card-icon">
-                <i class="fa-regular fa-circle-check"></i>
-            </div>
+            <i class="fa-solid fa-clock"></i>
 
-            <div class="card-text">
-                <p>Selesai Hari Ini</p>
-                <h1>{{ $selesaiHariIni }}</h1>
-                <p>Pesanan</p>
+            <div>
+                <p>Rata-rata Waktu Masak</p>
+                <h2>{{ round($rataRataMasak ?? 0) }}</h2>
+                <p>Menit</p>
             </div>
 
         </div>
+
+    </div>
+
+    <div class="table-box">
+
+        <table>
+
+            <tr>
+                <th>No</th>
+                <th>No. Pesanan</th>
+                <th>Meja</th>
+                <th>Pelanggan</th>
+                <th>Waktu</th>
+                <th>Daftar Pesanan</th>
+                <th>Total</th>
+                <th>Status</th>
+            </tr>
+
+            @foreach($orders as $order)
+
+            <tr>
+
+            <td>{{ $loop->iteration }}</td>
+
+            <td>#{{ $order->kode_order }}</td>
+
+            <td>Meja {{ $order->nomor_meja }}</td>
+
+            <td>{{ $order->nama_pelanggan }}</td>
+
+            <td>{{ $order->created_at->format('H:i') }}</td>
+
+            <td>
+                {{ $order->items->count() }} Menu
+            </td>
+
+            <td>
+                Rp {{ number_format($order->total_harga,0,',','.') }}
+            </td>
+
+            <td>
+                <span class="status-selesai">
+                    Selesai
+                </span>
+            </td>
+
+            </tr>
+
+            @endforeach
+
+        </table>
 
     </div>
 

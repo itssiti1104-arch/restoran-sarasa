@@ -251,7 +251,7 @@ td{
                 Riwayat Pesanan
             </a>
 
-            <a href="#">
+            <a href="/laporan-harian-dapur">
                 <i class="fa-solid fa-chart-column"></i>
                 Laporan Harian
             </a>

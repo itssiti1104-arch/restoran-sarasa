@@ -105,4 +105,46 @@ class DapurController extends Controller
             compact('orders')
         );
     }
+
+    public function laporanHarian()
+    {
+        $orders = Order::with('items.menu')
+            ->whereDate('created_at', today())
+            ->where('status', 'selesai')
+            ->latest()
+            ->get();
+
+        $totalPesanan = Order::whereDate(
+            'created_at',
+            today()
+        )->count();
+
+        $pesananSelesai = $orders->count();
+
+        $rataRataMasak = Order::whereDate(
+            'created_at',
+            today()
+        )
+        ->whereNotNull('mulai_proses_at')
+        ->whereNotNull('selesai_at')
+        ->get()
+        ->avg(function ($order) {
+
+            return $order->mulai_proses_at
+                ->diffInMinutes(
+                    $order->selesai_at
+                );
+
+        });
+
+        return view(
+            'laporan-harian-dapur',
+            compact(
+                'orders',
+                'totalPesanan',
+                'pesananSelesai',
+                'rataRataMasak'
+            )
+        );
+    }
 }
