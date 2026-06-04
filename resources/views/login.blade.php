@@ -204,20 +204,6 @@
 
         </div>
 
-        <div class="remember">
-
-            <div class="remember-left">
-
-                <input type="checkbox">
-
-                <span>Ingat saya</span>
-
-            </div>
-
-            <a href="#">Lupa password?</a>
-
-        </div>
-
         <button type="submit" class="btn-login">
             Login
         </button>

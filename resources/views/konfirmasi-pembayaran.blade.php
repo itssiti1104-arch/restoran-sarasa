@@ -270,18 +270,6 @@ body{
 
             </div>
 
-            <div class="valid-box">
-
-                <h3>
-                    ✔ Pembayaran Valid
-                </h3>
-
-                <p>
-                    Pembayaran diterima dengan nominal yang valid
-                </p>
-
-            </div>
-
             <div class="actions">
 
                 <a href="/detail-pesanan-kasir/{{ $order->id }}">

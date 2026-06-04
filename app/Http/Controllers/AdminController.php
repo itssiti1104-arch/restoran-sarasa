@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Menu;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -115,6 +116,70 @@ class AdminController extends Controller
         Menu::findOrFail($id)->delete();
 
         return redirect('/kelola-menu');
+    }
+
+    public function laporanPenjualan(Request $request)
+    {
+        $tanggal = $request->tanggal ?? today()->toDateString();
+
+        $orders = Order::with('items.menu')
+            ->whereDate('created_at', $tanggal)
+            ->whereIn('status', [
+                'selesai',
+                'dibatalkan'
+            ])
+            ->latest()
+            ->get();
+
+        $totalPenjualan = Order::whereDate(
+            'created_at',
+            $tanggal
+        )
+        ->where('status', 'selesai')
+        ->sum('total_harga');
+
+        $totalTransaksi = Order::whereDate(
+            'created_at',
+            $tanggal
+        )
+        ->where('status', 'selesai')
+        ->count();
+
+        $rataRataTransaksi =
+            $totalTransaksi > 0
+            ? $totalPenjualan / $totalTransaksi
+            : 0;
+
+        $menuTerlaris = OrderItem::selectRaw(
+                'menu_id,
+                SUM(jumlah) as total_terjual'
+            )
+            ->with('menu')
+            ->whereHas('order', function($q)
+            use ($tanggal){
+
+                $q->whereDate(
+                    'created_at',
+                    $tanggal
+                )
+                ->where('status', 'selesai');
+
+            })
+            ->groupBy('menu_id')
+            ->orderByDesc('total_terjual')
+            ->first();
+
+        return view(
+            'laporan-penjualan',
+            compact(
+                'orders',
+                'tanggal',
+                'totalPenjualan',
+                'totalTransaksi',
+                'rataRataTransaksi',
+                'menuTerlaris'
+            )
+        );
     }
 
 }

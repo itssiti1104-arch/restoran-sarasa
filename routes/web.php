@@ -312,4 +312,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         [AdminController::class, 'hapusMenu']
     );
 
+    Route::get(
+        '/laporan-penjualan',
+        [AdminController::class, 'laporanPenjualan']
+    );
+
 });

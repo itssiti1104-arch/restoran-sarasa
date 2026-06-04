@@ -301,7 +301,7 @@ td{
                 Kelola Menu
             </a>
 
-            <a href="#">
+            <a href="/laporan-penjualan">
                 <i class="fa-solid fa-chart-column"></i>
                 Laporan Penjualan
             </a>

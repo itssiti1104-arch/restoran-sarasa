@@ -89,7 +89,7 @@ class DapurController extends Controller
 
         $order->save();
 
-        return back();
+        return redirect('/pesanan-masuk-dapur');
     }
 
     public function riwayatPesanan()

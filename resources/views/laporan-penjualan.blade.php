@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+
+<meta http-equiv="Cache-Control"
+content="no-cache, no-store, must-revalidate">
+
+<meta http-equiv="Pragma"
+content="no-cache">
+
+<meta http-equiv="Expires"
+content="0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Laporan Harian</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    display:flex;
+    background:#f5f5f5;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:280px;
+    min-height:100vh;
+    background:#5a0010;
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.top-sidebar{
+    padding:25px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:50px;
+}
+
+.logo img{
+    width:70px;
+}
+
+.logo-text h1{
+    font-size:42px;
+    line-height:1;
+}
+
+.logo-text p{
+    letter-spacing:3px;
+    font-size:12px;
+}
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.menu a{
+    color:white;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:15px 20px;
+    border-radius:15px;
+    font-size:22px;
+    transition:0.3s;
+}
+
+.menu a:hover,
+.menu .active{
+    background:white;
+    color:#5a0010;
+}
+
+.menu i{
+    font-size:30px;
+}
+
+.bottom{
+    border-top:2px solid white;
+    padding:25px;
+}
+
+.logout{
+    color:white;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    font-size:22px;
+}
+
+/* MAIN */
+
+.main{
+    flex:1;
+    padding:30px;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+.header h1{
+    color:#5a0010;
+    font-size:45px;
+}
+
+.date{
+    border:2px solid #999;
+    border-radius:15px;
+    padding:15px 25px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    font-size:22px;
+    font-weight:600;
+    background:white;
+}
+
+/* TABLE */
+
+.cards{
+    display:flex;
+    gap:40px;
+    margin-top:30px;
+    margin-bottom:35px;
+}
+
+.card{
+    width:320px;
+    background:white;
+    border:2px solid #bbb;
+    border-radius:20px;
+    padding:25px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.card i{
+    font-size:55px;
+    color:#5a0010;
+}
+
+.card h2{
+    font-size:42px;
+}
+
+.card p{
+    font-size:20px;
+}
+
+.table-box{
+    background:white;
+    border:2px solid #bbb;
+    border-radius:18px;
+    overflow:hidden;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#efefef;
+    padding:20px;
+    font-size:22px;
+}
+
+td{
+    padding:25px 15px;
+    text-align:center;
+    font-size:20px;
+    border-top:2px solid #ccc;
+}
+
+.status{
+    background:#ffe6c7;
+    color:#ff7a00;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
+}
+
+.btn{
+    background:#5a0010;
+    color:white;
+    text-decoration:none;
+    padding:10px 18px;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:600;
+}
+
+.status-selesai{
+    background:#dff0df;
+    color:#2f9e44;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
+}
+
+.status-batal{
+    background:#ffe2e2;
+    color:#d63031;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
+}
+
+.export-btn{
+    background:#5a0010;
+    color:white;
+    text-decoration:none;
+    padding:15px 25px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:18px;
+    font-weight:600;
+}
+
+</style>
+</head>
+
+<body>
+
+@php
+use Illuminate\Support\Facades\Auth;
+@endphp
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+    <div class="top-sidebar">
+
+        <div class="logo">
+
+            <img src="/images/logo_putih.png">
+
+            <div class="logo-text">
+                <h1>sarasa</h1>
+                <p>RESTORAN</p>
+            </div>
+
+        </div>
+
+        <div class="menu">
+
+            <a href="/admin">
+                <i class="fa-solid fa-house"></i>
+                Beranda
+            </a>
+
+            <a href="/kelola-menu">
+                <i class="fa-solid fa-utensils"></i>
+                Kelola Menu
+            </a>
+
+            <a href="/laporan-penjualan" class="active">
+                <i class="fa-solid fa-chart-column"></i>
+                Laporan Penjualan
+            </a>
+
+            <a href="/manajemen-akun">
+                <i class="fa-regular fa-user"></i>
+                Manajemen Akun
+            </a>
+
+            <a href="/logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+    <div class="header">
+
+        <h1>Laporan Harian</h1>
+
+        <div style="display:flex; gap:15px;">
+
+            <form method="GET">
+
+                <div class="date">
+
+                    <input
+                        type="date"
+                        name="tanggal"
+                        value="{{ $tanggal }}"
+                        onchange="this.form.submit()"
+                        style="
+                            border:none;
+                            outline:none;
+                            font-size:18px;
+                        "
+                    >
+
+                </div>
+
+            </form>
+
+            <a
+                href="#"
+                class="export-btn"
+            >
+                <i class="fa-solid fa-file-pdf"></i>
+                Export PDF
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <div>
+
+                <p>Total Penjualan</p>
+
+                <h2>
+                    Rp {{ number_format($totalPenjualan,0,',','.') }}
+                </h2>
+
+                <p>Pendapatan</p>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <i class="fa-solid fa-receipt"></i>
+
+            <div>
+
+                <p>Total Transaksi</p>
+
+                <h2>{{ $totalTransaksi }}</h2>
+
+                <p>Transaksi</p>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <i class="fa-solid fa-money-bill-wave"></i>
+
+            <div>
+
+                <p>Rata-rata</p>
+
+                <h2>
+                    Rp {{ number_format($rataRataTransaksi,0,',','.') }}
+                </h2>
+
+                <p>Per Transaksi</p>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <i class="fa-solid fa-star"></i>
+
+            <div>
+
+                <p>Menu Terlaris</p>
+
+                <h2>
+                    {{ $menuTerlaris?->menu?->nama_menu ?? '-' }}
+                </h2>
+
+                <p>
+                    {{ $menuTerlaris->total_terjual ?? 0 }}
+                    Terjual
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    
+
+    <div class="table-box">
+
+        <table>
+
+            <tr>
+                <th>No</th>
+                <th>No. Pesanan</th>
+                <th>Pelanggan</th>
+                <th>Tanggal & Waktu</th>
+                <th>Daftar Pesanan</th>
+                <th>Total</th>
+                <th>Status</th>
+            </tr>
+
+            @foreach($orders as $order)
+
+            <tr>
+
+                <td>{{ $loop->iteration }}</td>
+
+                <td>#{{ $order->kode_order }}</td>
+
+                <td>{{ $order->nama_pelanggan }}</td>
+
+                <td>
+                    {{ $order->created_at->translatedFormat('d M Y H:i') }}
+                </td>
+
+                <td>
+                    {{ $order->items->count() }} Menu
+                </td>
+
+                <td>
+                    Rp {{ number_format($order->total_harga,0,',','.') }}
+                </td>
+
+                <td>
+
+                    @if($order->status == 'dibatalkan')
+
+                        <span class="status-batal">
+                            Dibatalkan
+                        </span>
+
+                    @else
+
+                        <span class="status-selesai">
+                            Selesai
+                        </span>
+
+                    @endif
+
+                </td>
+
+            </tr>
+
+            @endforeach
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
