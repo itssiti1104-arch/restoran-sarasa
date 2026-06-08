@@ -359,6 +359,7 @@ td{
                 <th>Nama Menu</th>
                 <th>Kategori</th>
                 <th>Harga</th>
+                <th>Stok</th>
                 <th>Aksi</th>
             </tr>
 
@@ -383,6 +384,10 @@ td{
 
                 <td>
                     Rp {{ number_format($menu->harga,0,',','.') }}
+                </td>
+
+                <td>
+                    {{ $menu->stok }}
                 </td>
 
                 <td style="display:flex; justify-content:center; gap:10px;">
@@ -466,7 +471,14 @@ td{
                     <input
                         type="text"
                         name="nama_menu"
+                        value="{{ old('nama_menu') }}"
                     >
+
+                    @error('nama_menu')
+                    <p style="color:red; margin-top:5px;">
+                        {{ $message }}
+                    </p>
+                    @enderror
 
                 </div>
 
@@ -475,10 +487,31 @@ td{
                     <label>Kategori</label>
 
                     <select name="kategori">
-                        <option value="Makanan">Makanan</option>
-                        <option value="Minuman">Minuman</option>
-                        <option value="Dessert">Dessert</option>
+
+                        <option value="">Pilih Kategori</option>
+
+                        <option value="Makanan"
+                            {{ old('kategori') == 'Makanan' ? 'selected' : '' }}>
+                            Makanan
+                        </option>
+
+                        <option value="Minuman"
+                            {{ old('kategori') == 'Minuman' ? 'selected' : '' }}>
+                            Minuman
+                        </option>
+
+                        <option value="Dessert"
+                            {{ old('kategori') == 'Dessert' ? 'selected' : '' }}>
+                            Dessert
+                        </option>
+
                     </select>
+
+                    @error('kategori')
+                    <p style="color:red; margin-top:5px;">
+                        {{ $message }}
+                    </p>
+                    @enderror
 
                 </div>
 
@@ -489,7 +522,14 @@ td{
                     <input
                         type="number"
                         name="harga"
+                        value="{{ old('harga') }}"
                     >
+
+                    @error('harga')
+                    <p style="color:red; margin-top:5px;">
+                        {{ $message }}
+                    </p>
+                    @enderror
 
                 </div>
 
@@ -501,6 +541,12 @@ td{
                         type="file"
                         name="gambar"
                     >
+
+                    @error('gambar')
+                    <p style="color:red; margin-top:5px;">
+                        {{ $message }}
+                    </p>
+                    @enderror
 
                 </div>
 
@@ -570,6 +616,7 @@ td{
                         type="text"
                         name="nama_menu"
                         id="editNamaMenu"
+                        required
                     >
 
                 </div>
@@ -581,10 +628,11 @@ td{
                     <select
                         name="kategori"
                         id="editKategori"
+                        required
                     >
-                        <option value="Makanan">Makanan</option>
-                        <option value="Minuman">Minuman</option>
-                        <option value="Dessert">Dessert</option>
+                        <option value="makanan">Makanan</option>
+                        <option value="minuman">Minuman</option>
+                        <option value="dessert">Dessert</option>
                     </select>
 
                 </div>
@@ -597,6 +645,8 @@ td{
                         type="number"
                         name="harga"
                         id="editHarga"
+                        min="1"
+                        required
                     >
 
                 </div>
@@ -742,6 +792,12 @@ document
 };
 
 </script>
+
+@if(session('modal') == 'tambah')
+<script>
+document.getElementById('menuModal').style.display = 'flex';
+</script>
+@endif
 
 </body>
 </html>

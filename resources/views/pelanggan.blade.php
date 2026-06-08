@@ -336,7 +336,7 @@
         <div class="topbar">
 
             <div class="welcome">
-                <h1>Hai, Dina!👋🏻</h1>
+                <h1>Hai, {{ Auth::user()->nama }}!👋🏻</h1>
                 <p>Selamat datang kembali di restoran sarasa</p>
             </div>
 

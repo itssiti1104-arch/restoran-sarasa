@@ -326,6 +326,20 @@
 
             </div>
 
+            @if(session('error'))
+
+            <div style="
+                background:#dc3545;
+                color:white;
+                padding:15px;
+                border-radius:10px;
+                margin-bottom:20px;
+            ">
+                {{ session('error') }}
+            </div>
+
+            @endif
+
             <a href="/keranjang" class="cart">
                 <i class="fa-solid fa-cart-shopping"></i>
 
@@ -365,6 +379,15 @@
                         </p>
                     </div>
 
+                    <p style="
+                        color:#666;
+                        font-size:14px;
+                    ">
+                        Stok: {{ $menu->stok }}
+                    </p>
+
+                    @if($menu->stok > 0)
+
                     <div class="qty-box">
 
                         <form action="/kurang-keranjang/{{ $menu->id }}" method="POST">
@@ -373,7 +396,9 @@
                         </form>
 
                         <div class="qty-number">
+
                             {{ session('keranjang')[$menu->id]['jumlah'] ?? 0 }}
+
                         </div>
 
                         <form action="/tambah-keranjang/{{ $menu->id }}" method="POST">
@@ -382,6 +407,20 @@
                         </form>
 
                     </div>
+
+                    @else
+
+                    <div style="
+                        background:#dc3545;
+                        color:white;
+                        padding:10px 15px;
+                        border-radius:10px;
+                        font-weight:600;
+                    ">
+                        Stok Habis
+                    </div>
+
+                    @endif
 
                 </div>
 

@@ -116,6 +116,15 @@ textarea{
     color:white;
 }
 
+select{
+    width:100%;
+    padding:18px;
+    border:4px solid #aaa;
+    border-radius:15px;
+    margin-bottom:25px;
+    font-size:22px;
+}
+
 </style>
 </head>
 <body>
@@ -130,10 +139,38 @@ textarea{
     <div>
 
     <label>Nama</label>
-    <input type="text" name="nama" placeholder="Isi Nama Anda">
+
+    <input type="text"
+        name="nama"
+        value="{{ old('nama') }}"
+        placeholder="Isi nama Anda">
+
+    @error('nama')
+    <p style="color:red; margin-top:-15px; margin-bottom:15px;">
+        {{ $message }}
+    </p>
+    @enderror
 
     <label>Meja</label>
-    <input type="text" name="meja" placeholder="Isi Nomor Meja">
+
+    <select name="meja">
+
+        <option value="">Pilih Meja</option>
+
+        @for($i = 1; $i <= 20; $i++)
+            <option value="{{ $i }}"
+                {{ old('meja') == $i ? 'selected' : '' }}>
+                {{ $i }}
+            </option>
+        @endfor
+
+    </select>
+
+    @error('meja')
+    <p style="color:red; margin-top:-15px; margin-bottom:15px;">
+        {{ $message }}
+    </p>
+    @enderror
 
     <label>Catatan</label>
     <textarea name="catatan" placeholder="Tambahkan catatan..."></textarea>

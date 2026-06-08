@@ -251,6 +251,11 @@ td{
                 Riwayat Pesanan
             </a>
 
+            <a href="/update-stok">
+                <i class="fa-solid fa-box"></i>
+                Update Stok
+            </a>
+
             <a href="/laporan-harian-dapur">
                 <i class="fa-solid fa-chart-column"></i>
                 Laporan Harian

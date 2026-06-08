@@ -237,7 +237,10 @@ td{
             <form action="/batalkan-pesanan/{{ $order->id }}" method="POST">
                 @csrf
 
-                <button class="btn cancel-btn">
+                <button
+                    type="submit"
+                    class="btn cancel-btn"
+                    onclick="return confirm('Yakin ingin membatalkan pesanan ini?')">
                     Batalkan
                 </button>
             </form>

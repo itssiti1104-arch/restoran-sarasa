@@ -372,6 +372,34 @@ body{
 
 <div class="main">
 
+    @if(session('success'))
+
+    <div style="
+        background:#dff0df;
+        color:#2f9e44;
+        padding:15px;
+        border-radius:12px;
+        margin-bottom:20px;
+    ">
+        {{ session('success') }}
+    </div>
+
+    @endif
+
+    @if(session('error'))
+
+    <div style="
+        background:#ffe2e2;
+        color:#d63031;
+        padding:15px;
+        border-radius:12px;
+        margin-bottom:20px;
+    ">
+        {{ session('error') }}
+    </div>
+
+    @endif
+
     <h1 class="page-title">
         Profil saya
     </h1>
@@ -468,6 +496,24 @@ body{
             Pastikan password baru Anda kuat dan aman
         </p>
 
+        @if($errors->any())
+
+        <div style="
+            background:#ffe2e2;
+            color:#b71c1c;
+            padding:15px;
+            border-radius:12px;
+            margin-bottom:20px;
+        ">
+            <ul style="margin-left:20px;">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+
+        @endif
+
         <hr>
 
         <form action="/ubah-password" method="POST">
@@ -497,6 +543,7 @@ body{
                 <input
                     type="password"
                     name="password_baru"
+                    minlength="8"
                     required
                 >
 
@@ -506,6 +553,14 @@ body{
 
             </div>
 
+            <p style="
+                font-size:14px;
+                color:#666;
+                margin-top:8px;
+            ">
+                Password minimal 8 karakter.
+            </p>
+
             <label>Konfirmasi Password Baru</label>
 
             <div class="password-box">
@@ -513,6 +568,7 @@ body{
                 <input
                     type="password"
                     name="password_baru_confirmation"
+                    minlength="8"
                     required
                 >
 
@@ -565,6 +621,24 @@ body{
             Perbaiki informasi profil Anda
         </p>
 
+        @if($errors->any())
+
+        <div style="
+            background:#ffe2e2;
+            color:#b71c1c;
+            padding:15px;
+            border-radius:12px;
+            margin-bottom:20px;
+        ">
+            <ul style="margin-left:20px;">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+
+        @endif
+
         <hr>
 
         <form action="/update-profil" method="POST">
@@ -604,6 +678,8 @@ body{
                 type="text"
                 name="nomor_telepon"
                 value="{{ Auth::user()->nomor_telepon }}"
+                minlength="12"
+                required
             >
 
             <div class="info-box">

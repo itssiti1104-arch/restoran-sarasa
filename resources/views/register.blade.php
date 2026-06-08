@@ -7,7 +7,6 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
     <style>
 
         *{
@@ -140,6 +139,12 @@
             background:#3d000b;
         }
 
+        .error{
+            color:#d63031;
+            font-size:13px;
+            margin-top:5px;
+        }
+
     </style>
 </head>
 <body>
@@ -177,28 +182,48 @@
             <label>Nama lengkap</label>
             <input type="text"
             name="nama"
+            value="{{ old('nama') }}"
             placeholder="Masukkan nama lengkap Anda">
+
+            @error('nama')
+            <p class="error">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="input-group">
             <label>Email</label>
             <input type="email"
             name="email"
+            value="{{ old('email') }}"
             placeholder="Masukkan email Anda">
+
+            @error('email')
+            <p class="error">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="input-group">
             <label>Nomor telepon</label>
             <input type="text"
             name="nomor_telepon"
+            value="{{ old('nomor_telepon') }}"
             placeholder="Masukkan nomor telepon Anda">
+
+            @error('nomor_telepon')
+            <p class="error">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="input-group">
             <label>Username</label>
             <input type="text"
             name="username"
+            value="{{ old('username') }}"
             placeholder="Masukkan username Anda">
+
+            @error('username')
+            <p class="error">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="input-group">
@@ -206,6 +231,10 @@
             <input type="password"
             name="password"
             placeholder="Masukkan password Anda">
+
+            @error('password')
+            <p class="error">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="input-group">
@@ -213,19 +242,6 @@
             <input type="password"
             name="password_confirmation"
             placeholder="Ulangi password Anda">
-        </div>
-
-        <div class="agree">
-
-            <input type="checkbox" required>
-
-            <p>
-                Saya setuju dengan
-                <span>Syarat & Ketentuan</span>
-                dan
-                <span>Kebijakan Privasi</span>
-            </p>
-
         </div>
 
         <button type="submit" class="btn-register">

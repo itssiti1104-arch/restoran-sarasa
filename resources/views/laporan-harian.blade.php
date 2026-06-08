@@ -350,8 +350,6 @@ use Illuminate\Support\Facades\Auth;
                 <h2>
                     Rp {{ number_format($totalPenjualan,0,',','.') }}
                 </h2>
-
-                <p>Pendapatan</p>
             </div>
 
         </div>

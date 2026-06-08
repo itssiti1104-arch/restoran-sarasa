@@ -76,14 +76,38 @@ class PelangganController extends Controller
 
     public function kodePesanan(Request $request)
     {
+        $request->validate([
+            'nama' => 'required|string|max:100',
+            'meja' => 'required|integer|min:1|max:20',
+        ],[
+            'nama.required' => 'Nama wajib diisi',
+            'meja.required' => 'Nomor meja wajib dipilih',
+        ]);
+
         $keranjang = session('keranjang', []);
+
+        if(empty($keranjang)){
+            return back()->with(
+                'error',
+                'Keranjang masih kosong.'
+            );
+        }
 
         $total = 0;
 
-        foreach($keranjang as $item){
+        foreach($keranjang as $id => $item){
+
+            $menu = Menu::findOrFail($id);
+
+            if($menu->stok < $item['jumlah']){
+
+                return back()->with(
+                    'error',
+                    'Stok '.$menu->nama_menu.' tidak mencukupi.'
+                );
+            }
 
             $total += $item['harga'] * $item['jumlah'];
-
         }
 
         $kode = 'ORD-' . date('Ymd') . '-' . rand(1000,9999);
@@ -112,6 +136,11 @@ class PelangganController extends Controller
 
             ]);
 
+            $menu = Menu::findOrFail($id);
+
+            $menu->stok -= $item['jumlah'];
+
+            $menu->save();
         }
 
         session()->forget('keranjang');
@@ -140,11 +169,28 @@ class PelangganController extends Controller
         );
     }
 
+    public function profilPelanggan()
+    {
+        return view('profil-pelanggan');
+    }
+
     public function ubahPassword(Request $request)
     {
         $request->validate([
             'password_lama' => 'required',
-            'password_baru' => 'required|confirmed'
+            'password_baru' => 'required|min:8|confirmed'
+        ],[
+            'password_lama.required' =>
+                'Password lama wajib diisi.',
+
+            'password_baru.required' =>
+                'Password baru wajib diisi.',
+
+            'password_baru.min' =>
+                'Password baru minimal 8 karakter.',
+
+            'password_baru.confirmed' =>
+                'Konfirmasi password tidak cocok.'
         ]);
 
         $user = auth()->user();
@@ -175,17 +221,38 @@ class PelangganController extends Controller
 
     public function updateProfil(Request $request)
     {
+        $request->validate([
+            'nama' => 'required',
+            'username' => 'required',
+            'email' => 'required|email',
+            'nomor_telepon' => 'required|digits:12'
+        ],[
+            'nama.required' => 'Nama lengkap wajib diisi.',
+
+            'username.required' => 'Username wajib diisi.',
+
+            'email.required' => 'Email wajib diisi.',
+
+            'email.email' => 'Format email tidak valid.',
+
+            'nomor_telepon.required' => 'Nomor telepon wajib diisi.',
+
+            'nomor_telepon.digits' => 'Nomor telepon harus 12 digit.'
+        ]);
+
         $user = Auth::user();
 
         $user->nama = $request->nama;
         $user->username = $request->username;
         $user->email = $request->email;
-        $user->nomor_telepon =
-            $request->nomor_telepon;
+        $user->nomor_telepon = $request->nomor_telepon;
 
         $user->save();
 
-        return back();
+        return back()->with(
+            'success',
+            'Profil berhasil diperbarui.'
+        );
     }
 
 
@@ -193,7 +260,6 @@ class PelangganController extends Controller
     {
         $orders = Order::with('items.menu', 'kasir')
             ->where('user_id', auth()->id())
-            ->where('status', 'selesai')
             ->latest()
             ->get();
 

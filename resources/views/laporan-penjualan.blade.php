@@ -15,7 +15,7 @@ content="0">
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Laporan Harian</title>
+<title>Laporan Penjualan</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
@@ -345,7 +345,7 @@ use Illuminate\Support\Facades\Auth;
             </form>
 
             <a
-                href="#"
+                href="/laporan-penjualan/pdf?tanggal={{ $tanggal }}"
                 class="export-btn"
             >
                 <i class="fa-solid fa-file-pdf"></i>

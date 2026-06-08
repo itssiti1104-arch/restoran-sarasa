@@ -376,6 +376,20 @@ td{
 
 <div class="main">
 
+    @if(session('error'))
+
+    <div style="
+        background:#800000;
+        color:#ffffff;
+        padding:15px;
+        border-radius:10px;
+        margin-bottom:20px;
+    ">
+        {{ session('error') }}
+    </div>
+
+    @endif
+
     <div class="header">
 
         <div>
@@ -511,13 +525,25 @@ td{
                 <div class="form-group">
                     <label>Nama</label>
 
-                    <input type="text" name="nama">
+                    <input type="text"
+                        name="nama"
+                        value="{{ old('nama') }}">
+
+                    @error('nama')
+                    <p style="color:red">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group">
                     <label>Username</label>
 
-                    <input type="text" name="username">
+                    <input type="text"
+                        name="username"
+                        value="{{ old('username') }}">
+
+                    @error('username')
+                    <p style="color:red">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group">
@@ -525,33 +551,68 @@ td{
 
                     <select name="role">
 
-                        <option value="admin">Admin</option>
+                        <option value="">Pilih Role</option>
 
-                        <option value="kasir">Kasir</option>
+                        <option value="admin"
+                        {{ old('role')=='admin'?'selected':'' }}>
+                        Admin
+                        </option>
 
-                        <option value="dapur">Dapur</option>
+                        <option value="kasir"
+                        {{ old('role')=='kasir'?'selected':'' }}>
+                        Kasir
+                        </option>
 
-                        <option value="pelanggan">Pelanggan</option>
+                        <option value="dapur"
+                        {{ old('role')=='dapur'?'selected':'' }}>
+                        Dapur
+                        </option>
+
+                        <option value="pelanggan"
+                        {{ old('role')=='pelanggan'?'selected':'' }}>
+                        Pelanggan
+                        </option>
 
                     </select>
+
+                    @error('role')
+                    <p style="color:red">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group">
-                    <label>No. Telpon</label>
+                    <label>No. Telepon</label>
 
-                    <input type="text" name="nomor_telepon">
+                    <input type="text"
+                        name="nomor_telepon"
+                        value="{{ old('nomor_telepon') }}">
+
+                    @error('nomor_telepon')
+                    <p style="color:red">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
 
-                    <input type="email" name="email">
+                    <input type="email"
+                        name="email"
+                        value="{{ old('email') }}">
+
+                    @error('email')
+                    <p style="color:red">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group">
                     <label>Password</label>
 
-                    <input type="password" name="password">
+                    <input type="password"
+                        name="password">
+
+                    @error('password')
+                    <p style="color:red">{{ $message }}</p>
+                    @enderror
                 </div>
 
             </div>
@@ -576,10 +637,21 @@ td{
 
 <!-- MODAL EDIT -->
 
+@if($errors->any())
+<div style="
+    background:#ffd6d6;
+    color:red;
+    padding:10px;
+    margin-bottom:15px;
+    border-radius:8px;
+">
+    {{ $errors->first() }}
+</div>
+@endif
+
 <div class="modal" id="editModal">
 
     <div class="modal-box">
-
         <div class="modal-header">
 
             <h2>Edit Akun</h2>
@@ -604,13 +676,21 @@ td{
                 <div class="form-group">
                     <label>Nama</label>
 
-                    <input type="text" name="nama" id="editNama">
+                    <input type="text"
+                           name="nama"
+                           id="editNama"
+                           value="{{ old('nama') }}"
+                           required>
                 </div>
 
                 <div class="form-group">
                     <label>Username</label>
 
-                    <input type="text" name="username" id="editUsername">
+                    <input type="text"
+                           name="username"
+                           id="editUsername"
+                           value="{{ old('username') }}"
+                           required>
                 </div>
 
                 <div class="form-group">
@@ -633,16 +713,28 @@ td{
                     <label>No. Telpon</label>
 
                     <input
-                        type="text"
-                        name="nomor_telepon"
-                        id="editTelepon"
-                    >
+                    type="text"
+                    name="nomor_telepon"
+                    id="editTelepon"
+                    minlength="12"
+                    maxlength="12"
+                    required>
+
+                    @error('nomor_telepon')
+                    <p style="color:red; margin-top:5px;">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
 
-                    <input type="email" name="email" id="editEmail">
+                    <input type="email"
+                           name="email"
+                           id="editEmail"
+                           value="{{ old('email') }}"
+                           required>
                 </div>
 
                 <div class="form-group">
@@ -651,6 +743,7 @@ td{
                     <input
                         type="password"
                         name="password"
+                        minlength="8"
                         placeholder="Kosongkan jika tidak diubah"
                     >
                 </div>
@@ -690,6 +783,12 @@ td{
     </div>
 
 </div>
+
+@if ($errors->any())
+<script>
+    document.getElementById('accountModal').style.display = 'flex';
+</script>
+@endif
 
 <script>
 
@@ -761,6 +860,12 @@ cancelEditModal.addEventListener('click', () => {
 });
 
 </script>
+
+@if ($errors->any())
+<script>
+document.getElementById('editModal').style.display = 'flex';
+</script>
+@endif
 
 </body>
 </html>

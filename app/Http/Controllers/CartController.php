@@ -11,32 +11,6 @@ use App\Models\OrderItem;
 
 class CartController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | MENU
-    |--------------------------------------------------------------------------
-    */
-
-    public function menuMakanan()
-    {
-        $menus = Menu::where('kategori', 'makanan')->get();
-
-        return view('menu-makanan', compact('menus'));
-    }
-
-    public function menuMinuman()
-    {
-        $menus = Menu::where('kategori', 'minuman')->get();
-
-        return view('menu-minuman', compact('menus'));
-    }
-
-    public function menuDessert()
-    {
-        $menus = Menu::where('kategori', 'dessert')->get();
-
-        return view('menu-dessert', compact('menus'));
-    }
 
     /*
     |--------------------------------------------------------------------------
@@ -82,13 +56,34 @@ class CartController extends Controller
     {
         $menu = Menu::findOrFail($id);
 
+        if($menu->stok <= 0){
+
+            return back()->with(
+                'error',
+                'Menu sedang habis.'
+            );
+
+        }
+
         $keranjang = session()->get('keranjang', []);
+
+        $jumlahSaatIni =
+            $keranjang[$id]['jumlah'] ?? 0;
+
+        if($jumlahSaatIni >= $menu->stok){
+
+            return back()->with(
+                'error',
+                'Jumlah pesanan melebihi stok yang tersedia.'
+            );
+
+        }
 
         if(isset($keranjang[$id])){
 
             $keranjang[$id]['jumlah']++;
 
-        } else {
+        }else{
 
             $keranjang[$id] = [
 
@@ -98,6 +93,7 @@ class CartController extends Controller
                 'jumlah' => 1
 
             ];
+
         }
 
         session()->put('keranjang', $keranjang);
@@ -134,81 +130,5 @@ class CartController extends Controller
         session()->put('keranjang', $keranjang);
 
         return back();
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | PEMESANAN
-    |--------------------------------------------------------------------------
-    */
-
-    public function informasiPesanan()
-    {
-        return view('informasi-pesanan');
-    }
-
-    public function riwayatPesanan()
-    {
-        return view('riwayat-pesanan');
-    }
-
-    public function statusPesanan()
-    {
-        return view('status-pesanan');
-    }
-
-    public function profilPelanggan()
-    {
-        return view('profil-pelanggan');
-    }
-
-    public function kodePesanan(Request $request)
-    {
-        $keranjang = session('keranjang', []);
-
-        $total = 0;
-
-        foreach($keranjang as $item){
-
-            $total += $item['harga'] * $item['jumlah'];
-
-        }
-
-        $kode = 'ORD-' . date('Ymd') . '-' . rand(1000,9999);
-
-        $order = Order::create([
-
-            'user_id' => Auth::id(),
-            'kode_order' => $kode,
-            'nama_pelanggan' => $request->nama,
-            'nomor_meja' => $request->meja,
-            'catatan' => $request->catatan,
-            'total_harga' => $total,
-            'status' => 'menunggu pembayaran'
-
-        ]);
-
-        foreach($keranjang as $id => $item){
-
-            OrderItem::create([
-
-                'order_id' => $order->id,
-                'menu_id' => $id,
-                'jumlah' => $item['jumlah'],
-                'harga' => $item['harga'],
-                'subtotal' => $item['harga'] * $item['jumlah']
-
-            ]);
-
-        }
-
-        session()->forget('keranjang');
-
-        return view('kode-pesanan', [
-
-            'kode' => $kode,
-            'total' => $total
-
-        ]);
     }
 }

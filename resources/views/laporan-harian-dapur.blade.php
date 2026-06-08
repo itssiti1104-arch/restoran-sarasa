@@ -40,7 +40,7 @@ body{
 /* SIDEBAR */
 
 .sidebar{
-    width:280px;
+    width:300px;
     min-height:100vh;
     background:#5a0010;
     color:white;
@@ -49,7 +49,7 @@ body{
     justify-content:space-between;
 }
 
-.sidebar-top{
+.top{
     padding:25px;
 }
 
@@ -57,11 +57,11 @@ body{
     display:flex;
     align-items:center;
     gap:15px;
-    margin-bottom:40px;
+    margin-bottom:50px;
 }
 
 .logo img{
-    width:70px;
+    width:75px;
 }
 
 .logo-text h1{
@@ -70,31 +70,26 @@ body{
 }
 
 .logo-text p{
-    font-size:12px;
     letter-spacing:3px;
+    font-size:12px;
 }
 
 .menu{
     display:flex;
     flex-direction:column;
-    gap:18px;
+    gap:20px;
 }
 
 .menu a{
+    color:white;
+    text-decoration:none;
+    font-size:22px;
     display:flex;
     align-items:center;
     gap:18px;
-    color:white;
-    text-decoration:none;
-    padding:16px 20px;
-    font-size:20px;
-    font-weight:600;
-    border-radius:14px;
+    padding:15px 20px;
+    border-radius:15px;
     transition:0.3s;
-}
-
-.menu a i{
-    font-size:34px;
 }
 
 .menu a:hover,
@@ -103,31 +98,30 @@ body{
     color:#5a0010;
 }
 
-.logout{
-    margin-top:20px;
+.menu i{
+    font-size:30px;
 }
 
-.sidebar-bottom{
-    border-top:1px solid rgba(255,255,255,0.2);
+.bottom{
+    border-top:2px solid white;
     padding:25px;
     display:flex;
     align-items:center;
     gap:15px;
 }
 
-.sidebar-bottom img{
+.bottom img{
     width:60px;
     height:60px;
     border-radius:50%;
-    object-fit:cover;
 }
 
-.user-text p{
-    font-size:18px;
+.bottom h3{
+    font-size:20px;
 }
 
-.user-text h3{
-    font-size:28px;
+.bottom p{
+    font-size:14px;
 }
 
 /* MAIN */
@@ -260,7 +254,7 @@ use Illuminate\Support\Facades\Auth;
 
 <div class="sidebar">
 
-    <div class="sidebar-top">
+    <div class="top">
 
         <div class="logo">
 
@@ -286,8 +280,13 @@ use Illuminate\Support\Facades\Auth;
             </a>
 
             <a href="/riwayat-pesanan-dapur">
-                <i class="fa-solid fa-file-lines"></i>
+                <i class="fa-solid fa-clock-rotate-left"></i>
                 Riwayat Pesanan
+            </a>
+
+            <a href="/update-stok">
+                <i class="fa-solid fa-box"></i>
+                Update Stok
             </a>
 
             <a href="/laporan-harian-dapur" class="active">
@@ -295,7 +294,7 @@ use Illuminate\Support\Facades\Auth;
                 Laporan Harian
             </a>
 
-            <a href="/logout" class="logout">
+            <a href="/logout">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Logout
             </a>
@@ -304,13 +303,13 @@ use Illuminate\Support\Facades\Auth;
 
     </div>
 
-    <div class="sidebar-bottom">
+    <div class="bottom">
 
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
 
-        <div class="user-text">
+        <div>
             <p>Dapur</p>
-            <h3>{{ Auth::user()->nama }}</h3>
+            <h3>{{ auth()->user()->nama }}</h3>
         </div>
 
     </div>
@@ -336,18 +335,6 @@ use Illuminate\Support\Facades\Auth;
     </div>
 
     <div class="cards">
-
-        <div class="card">
-
-            <i class="fa-solid fa-utensils"></i>
-
-            <div>
-                <p>Total Pesanan</p>
-                <h2>{{ $totalPesanan }}</h2>
-                <p>Pesanan</p>
-            </div>
-
-        </div>
 
         <div class="card">
 

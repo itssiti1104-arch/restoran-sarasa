@@ -319,11 +319,10 @@ use Illuminate\Support\Facades\Auth;
             <i class="fa-solid fa-chart-column"></i>
 
             <div>
-                <p>Pendapatan Hari Ini</p>
+                <p>Total Penjualan</p>
                 <h2>
                     Rp {{ number_format($pendapatan,0,',','.') }}
                 </h2>
-                <p>Total</p>
             </div>
 
         </div>

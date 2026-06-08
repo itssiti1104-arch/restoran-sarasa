@@ -75,17 +75,17 @@ Route::middleware(['auth', 'role:pelanggan'])->group(function () {
 
     Route::get(
         '/menu-pelanggan',
-        [CartController::class, 'menuMakanan']
+        [PelangganController::class,'menuMakanan']
     );
 
     Route::get(
         '/menu-minuman',
-        [CartController::class, 'menuMinuman']
+        [PelangganController::class,'menuMinuman']
     );
 
     Route::get(
         '/menu-dessert',
-        [CartController::class, 'menuDessert']
+        [PelangganController::class,'menuDessert']
     );
 
     /*
@@ -122,12 +122,12 @@ Route::middleware(['auth', 'role:pelanggan'])->group(function () {
 
     Route::get(
         '/informasi-pesanan',
-        [CartController::class, 'informasiPesanan']
+        [PelangganController::class,'informasiPesanan']
     );
 
     Route::post(
         '/kode-pesanan',
-        [CartController::class, 'kodePesanan']
+        [PelangganController::class, 'kodePesanan']
     );
 
     Route::get(
@@ -136,13 +136,8 @@ Route::middleware(['auth', 'role:pelanggan'])->group(function () {
     );
 
     Route::get(
-        '/status-pesanan',
-        [CartController::class, 'statusPesanan']
-    );
-
-    Route::get(
         '/profil-pelanggan',
-        [CartController::class, 'profilPelanggan']
+        [PelangganController::class, 'profilPelanggan']
     );
 
     Route::get(
@@ -257,6 +252,16 @@ Route::middleware(['auth', 'role:dapur'])->group(function () {
         [DapurController::class, 'laporanHarian']
     );
 
+    Route::get(
+        '/update-stok',
+        [DapurController::class, 'updateStok']
+    );
+
+    Route::put(
+        '/update-stok/{id}',
+        [DapurController::class, 'simpanStok']
+    );
+
 });
 
 /*
@@ -315,6 +320,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get(
         '/laporan-penjualan',
         [AdminController::class, 'laporanPenjualan']
+    );
+
+    Route::get(
+        '/laporan-penjualan/pdf',
+        [AdminController::class, 'exportPdf']
     );
 
 });

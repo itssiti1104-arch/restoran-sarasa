@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\User;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdminController extends Controller
 {
@@ -68,6 +69,20 @@ class AdminController extends Controller
 
     public function tambahMenu(Request $request)
     {
+        $request->validate([
+            'nama_menu' => 'required',
+            'kategori' => 'required',
+            'harga' => 'required|numeric|min:1',
+            'gambar' => 'required|image'
+        ],[
+            'nama_menu.required' => 'Nama menu wajib diisi.',
+            'kategori.required' => 'Kategori wajib dipilih.',
+            'harga.required' => 'Harga wajib diisi.',
+            'gambar.required' => 'Foto menu wajib dipilih.'
+        ]);
+
+        session()->flash('modal', 'tambah');
+
         $namaFile = time().'.'.$request->gambar->extension();
 
         $request->gambar->move(
@@ -179,6 +194,76 @@ class AdminController extends Controller
                 'rataRataTransaksi',
                 'menuTerlaris'
             )
+        );
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $tanggal =
+            $request->tanggal ??
+            today()->toDateString();
+
+        $orders = Order::with('items.menu')
+            ->whereDate('created_at', $tanggal)
+            ->whereIn('status', [
+                'selesai',
+                'dibatalkan'
+            ])
+            ->latest()
+            ->get();
+
+        $totalPenjualan = Order::whereDate(
+                'created_at',
+                $tanggal
+            )
+            ->where('status', 'selesai')
+            ->sum('total_harga');
+
+        $totalTransaksi = Order::whereDate(
+                'created_at',
+                $tanggal
+            )
+            ->where('status', 'selesai')
+            ->count();
+
+        $rataRataTransaksi =
+            $totalTransaksi > 0
+            ? $totalPenjualan / $totalTransaksi
+            : 0;
+
+        $menuTerlaris = OrderItem::selectRaw(
+                'menu_id,
+                SUM(jumlah) as total_terjual'
+            )
+            ->with('menu')
+            ->whereHas('order', function($q)
+            use ($tanggal){
+
+                $q->whereDate(
+                    'created_at',
+                    $tanggal
+                )
+                ->where('status', 'selesai');
+
+            })
+            ->groupBy('menu_id')
+            ->orderByDesc('total_terjual')
+            ->first();
+
+        $pdf = Pdf::loadView(
+            'pdf.laporan-penjualan',
+            compact(
+                'orders',
+                'tanggal',
+                'totalPenjualan',
+                'totalTransaksi',
+                'rataRataTransaksi',
+                'menuTerlaris'
+            )
+        );
+
+        return $pdf->download(
+            'laporan-penjualan-'.$tanggal.'.pdf'
         );
     }
 

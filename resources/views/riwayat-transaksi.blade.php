@@ -15,7 +15,7 @@ content="0">
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Pesanan Baru</title>
+<title>Riwayat Transaksi</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
@@ -420,12 +420,7 @@ use Illuminate\Support\Facades\Auth;
 
                 <td>{{ $order->nama_pelanggan }}</td>
 
-                <td>
-                    {{ $order->pembayaran_dikonfirmasi_at
-                        ? $order->pembayaran_dikonfirmasi_at->format('H:i')
-                        : '--:--'
-                    }}
-                </td>
+                <td>{{ $order->created_at->format('H:i') }}</td>
 
                 <td>
                     {{ $order->items->count() }} Menu

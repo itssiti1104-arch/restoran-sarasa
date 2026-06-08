@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Menu;
+use Illuminate\Http\Request;
 
 class DapurController extends Controller
 {
@@ -146,5 +148,28 @@ class DapurController extends Controller
                 'rataRataMasak'
             )
         );
+    }
+
+    public function updateStok()
+    {
+        $menus = Menu::all();
+
+        return view(
+            'update-stok',
+            compact('menus')
+        );
+    }
+
+    public function simpanStok(Request $request, $id)
+    {
+        $menu = Menu::findOrFail($id);
+
+        $menu->update([
+
+            'stok' => $request->stok
+
+        ]);
+
+        return redirect('/update-stok');
     }
 }

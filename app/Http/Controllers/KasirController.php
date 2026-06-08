@@ -104,7 +104,19 @@ class KasirController extends Controller
 
     public function batalkanPesanan($id)
     {
-        $order = Order::findOrFail($id);
+        $order = Order::with('items')->findOrFail($id);
+
+        foreach($order->items as $item){
+
+            $menu = \App\Models\Menu::find($item->menu_id);
+
+            if($menu){
+
+                $menu->stok += $item->jumlah;
+
+                $menu->save();
+            }
+        }
 
         $order->status = 'dibatalkan';
 

@@ -18,7 +18,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
     <!-- FONT AWESOME -->
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
@@ -147,6 +146,27 @@
             font-weight:700;
         }
 
+        .error-box{
+            background:#ffe2e2;
+            color:#b71c1c;
+            border:1px solid #f5b7b7;
+            padding:15px;
+            border-radius:12px;
+            margin-bottom:20px;
+            font-size:14px;
+        }
+
+        .error{
+            color:#d63031;
+            font-size:13px;
+            margin-top:8px;
+            margin-left:15px;
+        }
+
+        .input-error{
+            border:2px solid #d63031 !important;
+        }
+
     </style>
 </head>
 
@@ -160,9 +180,10 @@
 
         @if(session('error'))
 
-        <p style="color:red; margin-bottom:15px;">
+        <div class="error-box">
+            <strong>Login gagal!</strong><br>
             {{ session('error') }}
-        </p>
+        </div>
 
         @endif
 
@@ -177,8 +198,14 @@
             <input
                 type="text"
                 name="username"
+                value="{{ old('username') }}"
                 placeholder="Masukkan username"
+                class="@error('username') input-error @enderror"
             >
+
+            @error('username')
+            <p class="error">{{ $message }}</p>
+            @enderror
 
         </div>
 
@@ -193,6 +220,7 @@
                     name="password"
                     id="password"
                     placeholder="Masukkan password"
+                    class="@error('password') input-error @enderror"
                 >
 
                 <i
@@ -201,6 +229,10 @@
                 ></i>
 
             </div>
+
+            @error('password')
+            <p class="error">{{ $message }}</p>
+            @enderror
 
         </div>
 
